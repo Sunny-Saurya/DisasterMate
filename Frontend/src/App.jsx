@@ -1,0 +1,42 @@
+import React, { useState } from 'react';
+import Navbar from './components/layout/Navbar';
+import HomePage from './pages/Home';
+import LoginPage from './pages/Login';
+import SignupPage from './pages/Signup';
+import Dashboard from './pages/Dashboard';
+import { USER_NAME } from './data/mockData';
+
+const App = () => {
+    const [page, setPage] = useState('home');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    const navigate = (target) => {
+        if (target === 'dashboard' && !isLoggedIn) {
+            setPage('login');
+        } else {
+            setPage(target);
+            window.scrollTo(0, 0);
+        }
+    };
+
+    return (
+        <div className="antialiased">
+            {page !== 'login' && page !== 'signup' && (
+                <Navbar 
+                    navigate={navigate} 
+                    isLoggedIn={isLoggedIn} 
+                    onLogout={() => { setIsLoggedIn(false); navigate('home'); }} 
+                />
+            )}
+
+            <main>
+                {page === 'home' && <HomePage navigate={navigate} />}
+                {page === 'login' && <LoginPage navigate={navigate} onLogin={() => { setIsLoggedIn(true); navigate('dashboard'); }} />}
+                {page === 'signup' && <SignupPage navigate={navigate} onLogin={() => { setIsLoggedIn(true); navigate('dashboard'); }} />}
+                {page === 'dashboard' && <Dashboard user={USER_NAME} />}
+            </main>
+        </div>
+    );
+};
+
+export default App;

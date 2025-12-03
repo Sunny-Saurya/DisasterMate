@@ -1,0 +1,103 @@
+import React, { useState } from 'react';
+import { Shield, ArrowRight, CheckCircle } from 'lucide-react';
+import Input from '../components/ui/Input';
+import Button from '../components/ui/Button';
+
+const SignupPage = ({ navigate, onLogin }) => {
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+        // Simulate API call
+        setTimeout(() => {
+            onLogin(); // Log the user in after signup
+            setIsLoading(false);
+        }, 1500);
+    };
+
+    return (
+        <div className="min-h-screen flex bg-white">
+            {/* Left Side - Visual & Social Proof */}
+            <div className="hidden lg:flex w-1/2 bg-blue-600 relative overflow-hidden flex-col justify-between p-12 text-white">
+                <div className="absolute inset-0 bg-gradient-to-b from-blue-600 to-blue-900 opacity-90 z-0"></div>
+                
+                {/* Background Pattern */}
+                <div className="absolute inset-0 z-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
+                
+                <div className="relative z-10">
+                    <div className="flex items-center gap-2 mb-8">
+                        <Shield className="w-8 h-8 text-blue-200" />
+                        <span className="text-xl font-bold tracking-tight">DisasterMate</span>
+                    </div>
+                    <h1 className="text-5xl font-bold leading-tight mb-6">Join the Global Safety Network.</h1>
+                    <p className="text-blue-100 text-lg max-w-md">Connect with emergency services, access offline survival guides, and keep your family safe.</p>
+                </div>
+
+                <div className="relative z-10 space-y-6">
+                    <div className="flex items-center gap-4">
+                        <div className="flex -space-x-4">
+                            {[1,2,3,4].map(i => (
+                                <div key={i} className="w-10 h-10 rounded-full border-2 border-blue-600 bg-blue-200 flex items-center justify-center text-blue-800 font-bold text-xs">
+                                    User
+                                </div>
+                            ))}
+                        </div>
+                        <div>
+                            <p className="font-bold">1M+ Citizens</p>
+                            <p className="text-sm text-blue-200">Protected worldwide</p>
+                        </div>
+                    </div>
+                    
+                    <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20">
+                        <p className="italic text-blue-50">"DisasterMate's early warning system gave us the critical 15 minutes we needed to evacuate safely."</p>
+                        <div className="mt-4 flex items-center gap-2">
+                            <CheckCircle className="w-4 h-4 text-green-400" />
+                            <span className="text-sm font-semibold">Verified User</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Right Side - Signup Form */}
+            <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-slate-50 overflow-y-auto">
+                <div className="w-full max-w-md bg-white p-10 rounded-3xl shadow-xl shadow-slate-200/60 border border-slate-100 my-8">
+                    <div className="mb-8">
+                        <h2 className="text-3xl font-bold text-slate-900">Create Account</h2>
+                        <p className="text-slate-500 mt-2">Start your 30-day free trial. No credit card required.</p>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                        <div className="grid grid-cols-2 gap-4">
+                            <Input label="First Name" placeholder="Jane" />
+                            <Input label="Last Name" placeholder="Doe" />
+                        </div>
+                        <Input label="Email Address" type="email" placeholder="jane@example.com" />
+                        <Input label="Password" type="password" placeholder="Create a password" />
+                        <Input label="Confirm Password" type="password" placeholder="Confirm password" />
+                        
+                        <div className="text-sm text-slate-500">
+                            By creating an account, you agree to our <a href="#" className="text-blue-600 hover:underline">Terms</a> and <a href="#" className="text-blue-600 hover:underline">Privacy Policy</a>.
+                        </div>
+
+                        <Button fullWidth className="h-12 shadow-lg shadow-blue-600/20 text-lg group">
+                            {isLoading ? (
+                                "Creating Account..."
+                            ) : (
+                                <span className="flex items-center justify-center">
+                                    Get Started <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                </span>
+                            )}
+                        </Button>
+                    </form>
+                    
+                    <p className="mt-8 text-center text-slate-500 text-sm">
+                        Already have an account? <a onClick={() => navigate('login')} className="font-bold text-blue-600 hover:text-blue-500 cursor-pointer">Log In</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default SignupPage;
