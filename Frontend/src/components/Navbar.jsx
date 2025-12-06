@@ -30,7 +30,10 @@ const Navbar = ({ navigate, isLoggedIn, onLogout }) => {
                         {!isLoggedIn ? (
                             <>
                                 <button onClick={() => navigate('home')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Features</button>
+                                <button className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>About</button>
                                 <button className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Resources</button>
+                                <button className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Modules</button>
+                                <button className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Safety Tips</button>
                                 <div className="flex items-center gap-4">
                                     <button onClick={() => navigate('login')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Log In</button>
                                     <Button onClick={() => navigate('signup')} variant="primary" className="shadow-lg shadow-blue-600/20">Sign Up</Button>
@@ -57,6 +60,9 @@ const Navbar = ({ navigate, isLoggedIn, onLogout }) => {
             {isMobileMenuOpen && (
                 <div className="md:hidden bg-white border-t border-slate-100 absolute w-full px-4 py-6 shadow-xl space-y-4">
                     <Button fullWidth variant="outline" onClick={() => navigate('home')}>Home</Button>
+                    <Button fullWidth variant="outline" onClick={() => navigate('about')}>About</Button>
+                    <Button fullWidth variant="outline" onClick={() => navigate('modules')}>Modules</Button>
+                    <Button fullWidth variant="outline" onClick={() => navigate('safetytips')}>Safety Tips</Button>
                     {!isLoggedIn ? (
                         <>
                             <Button fullWidth variant="outline" onClick={() => navigate('login')}>Log In</Button>
