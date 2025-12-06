@@ -4,6 +4,9 @@ import HomePage from './pages/Home';
 import LoginPage from './pages/Login';
 import SignupPage from './pages/Signup';
 import Dashboard from './pages/Dashboard';
+import About from './pages/About';
+import Modules from './pages/Modules';
+import SafetyTips from './pages/SafetyTips';
 import { USER_NAME } from './data/mockData';
 
 const App = () => {
@@ -34,6 +37,9 @@ const App = () => {
                 {page === 'login' && <LoginPage navigate={navigate} onLogin={() => { setIsLoggedIn(true); navigate('dashboard'); }} />}
                 {page === 'signup' && <SignupPage navigate={navigate} onLogin={() => { setIsLoggedIn(true); navigate('dashboard'); }} />}
                 {page === 'dashboard' && <Dashboard user={USER_NAME} />}
+                {page === 'about' && <About navigate={navigate} />}
+                {page === 'modules' && <Modules navigate={navigate} />}
+                {page === 'safetytips' && <SafetyTips navigate={navigate} />}
             </main>
         </div>
     );
