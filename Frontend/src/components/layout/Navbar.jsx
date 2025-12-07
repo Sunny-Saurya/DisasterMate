@@ -159,12 +159,12 @@ const Navbar = ({ navigate, isLoggedIn, onLogout }) => {
             
             {isMobileMenuOpen && (
                 <div className="md:hidden bg-white border-t border-slate-100 absolute w-full px-4 py-6 shadow-xl space-y-4">
-<<<<<<< HEAD
+
                     <Button fullWidth variant="outline" onClick={() => navigate('home')}>Home</Button>
                     <Button fullWidth variant="outline" onClick={() => navigate('about')}>About</Button>
                     <Button fullWidth variant="outline" onClick={() => navigate('modules')}>Modules</Button>
                     <Button fullWidth variant="outline" onClick={() => navigate('safetytips')}>Safety Tips</Button>
-=======
+
                     {isLoggedIn && userData && (
                         <div className="bg-slate-50 rounded-xl p-4 mb-4">
                             <div className="flex items-center space-x-3 mb-3">
