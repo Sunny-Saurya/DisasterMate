@@ -5,14 +5,53 @@ import Button from '../components/ui/Button';
 
 const LoginPage = ({ navigate, onLogin }) => {
     const [isLoading, setIsLoading] = useState(false);
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
+    const [error, setError] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+        setError('');
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        setTimeout(() => {
-            onLogin();
+        setError('');
+
+        try {
+            console.log('Sending login request...');
+            const response = await fetch('http://localhost:5000/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            console.log('Response status:', response.status);
+            const data = await response.json();
+            console.log('Response data:', data);
+
+            if (data.success) {
+                // Store token in localStorage
+                localStorage.setItem('token', data.data.token);
+                localStorage.setItem('user', JSON.stringify(data.data));
+                onLogin();
+            } else {
+                setError(data.message || 'Login failed');
+            }
+        } catch (error) {
+            console.error('Login error details:', error);
+            setError(`Network error: ${error.message}. Make sure backend is running on port 5000.`);
+        } finally {
             setIsLoading(false);
-        }, 1500);
+        }
     };
 
     return (
@@ -36,9 +75,31 @@ const LoginPage = ({ navigate, onLogin }) => {
                         <p className="text-slate-500 mt-2">Enter your credentials to access the command center.</p>
                     </div>
 
+                    {error && (
+                        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
+                            {error}
+                        </div>
+                    )}
+
                     <form onSubmit={handleSubmit} className="space-y-6">
-                        <Input label="Email Address" placeholder="alex@example.com" />
-                        <Input label="Password" type="password" placeholder="••••••••" />
+                        <Input 
+                            label="Email Address" 
+                            name="email"
+                            type="email"
+                            placeholder="alex@example.com" 
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                        />
+                        <Input 
+                            label="Password" 
+                            name="password"
+                            type="password" 
+                            placeholder="••••••••" 
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                        />
                         
                         <div className="flex items-center justify-between text-sm">
                             <label className="flex items-center text-slate-600 cursor-pointer">

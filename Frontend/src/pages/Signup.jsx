@@ -5,15 +5,74 @@ import Button from '../components/ui/Button';
 
 const SignupPage = ({ navigate, onLogin }) => {
     const [isLoading, setIsLoading] = useState(false);
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+    });
+    const [error, setError] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+        setError('');
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        // Simulate API call
-        setTimeout(() => {
-            onLogin(); // Log the user in after signup
+        setError('');
+
+        // Validate passwords match
+        if (formData.password !== formData.confirmPassword) {
+            setError('Passwords do not match');
             setIsLoading(false);
-        }, 1500);
+            return;
+        }
+
+        // Validate password length
+        if (formData.password.length < 6) {
+            setError('Password must be at least 6 characters long');
+            setIsLoading(false);
+            return;
+        }
+
+        try {
+            console.log('Sending signup request...');
+            const response = await fetch('http://localhost:5000/api/auth/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: `${formData.firstName} ${formData.lastName}`,
+                    email: formData.email,
+                    password: formData.password
+                })
+            });
+
+            console.log('Response status:', response.status);
+            const data = await response.json();
+            console.log('Response data:', data);
+
+            if (data.success) {
+                // Store token in localStorage
+                localStorage.setItem('token', data.data.token);
+                localStorage.setItem('user', JSON.stringify(data.data));
+                onLogin();
+            } else {
+                setError(data.message || 'Signup failed');
+            }
+        } catch (error) {
+            console.error('Signup error details:', error);
+            setError(`Network error: ${error.message}. Make sure backend is running on port 5000.`);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -49,14 +108,58 @@ const SignupPage = ({ navigate, onLogin }) => {
                         <p className="text-slate-500 mt-2">Start your 30-day free trial. No credit card required.</p>
                     </div>
 
+                    {error && (
+                        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
+                            {error}
+                        </div>
+                    )}
+
                     <form onSubmit={handleSubmit} className="space-y-5">
                         <div className="grid grid-cols-2 gap-4">
-                            <Input label="First Name" placeholder="Jane" />
-                            <Input label="Last Name" placeholder="Doe" />
+                            <Input 
+                                label="First Name" 
+                                name="firstName"
+                                placeholder="Jane" 
+                                value={formData.firstName}
+                                onChange={handleChange}
+                                required
+                            />
+                            <Input 
+                                label="Last Name" 
+                                name="lastName"
+                                placeholder="Doe" 
+                                value={formData.lastName}
+                                onChange={handleChange}
+                                required
+                            />
                         </div>
-                        <Input label="Email Address" type="email" placeholder="jane@example.com" />
-                        <Input label="Password" type="password" placeholder="Create a password" />
-                        <Input label="Confirm Password" type="password" placeholder="Confirm password" />
+                        <Input 
+                            label="Email Address" 
+                            name="email"
+                            type="email" 
+                            placeholder="jane@example.com" 
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                        />
+                        <Input 
+                            label="Password" 
+                            name="password"
+                            type="password" 
+                            placeholder="Create a password" 
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                        />
+                        <Input 
+                            label="Confirm Password" 
+                            name="confirmPassword"
+                            type="password" 
+                            placeholder="Confirm password" 
+                            value={formData.confirmPassword}
+                            onChange={handleChange}
+                            required
+                        />
                         
                         <div className="text-sm text-slate-500">
                             By creating an account, you agree to our <a href="#" className="text-blue-600 hover:underline">Terms</a> and <a href="#" className="text-blue-600 hover:underline">Privacy Policy</a>.
