@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
     Thermometer, Wind, AlertTriangle, ChevronRight, Activity, 
     MapPin, Bell, Shield, BookOpen, Clock, CheckCircle, Search,
-    MoreVertical, Zap, Calendar, Users
+    MoreVertical, Zap, Calendar, Users, GraduationCap
 } from 'lucide-react';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
@@ -10,6 +11,7 @@ import Badge from '../components/ui/Badge';
 import { DASHBOARD_DATA } from '../data/mockData';
 
 const Dashboard = ({ user }) => {
+    const navigate = useNavigate();
     // Local state for basic interactions
     const [activeTab, setActiveTab] = useState('overview');
 
@@ -215,6 +217,50 @@ const Dashboard = ({ user }) => {
                             </button>
                         </div>
 
+                    </div>
+                </div>
+
+                {/* Safety Sessions CTA Banner */}
+                <div className="mt-8 relative overflow-hidden bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-3xl shadow-2xl">
+                    <div className="absolute inset-0 opacity-20" style={{
+                        backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+                        backgroundSize: '40px 40px'
+                    }}></div>
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+                    
+                    <div className="relative z-10 p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div className="text-white text-center md:text-left">
+                            <div className="flex items-center justify-center md:justify-start gap-2 mb-3">
+                                <GraduationCap className="w-8 h-8" />
+                                <h2 className="text-3xl font-bold">Safety Training Sessions</h2>
+                            </div>
+                            <p className="text-indigo-100 text-lg mb-4 max-w-2xl">
+                                Join expert-led safety workshops and get certified in life-saving techniques. 
+                                Book your spot in interactive sessions near you.
+                            </p>
+                            <div className="flex items-center gap-6 justify-center md:justify-start text-sm">
+                                <div className="flex items-center gap-2">
+                                    <CheckCircle className="w-5 h-5 text-emerald-300" />
+                                    <span>Expert Instructors</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <CheckCircle className="w-5 h-5 text-emerald-300" />
+                                    <span>Get Certified</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <CheckCircle className="w-5 h-5 text-emerald-300" />
+                                    <span>Small Groups</span>
+                                </div>
+                            </div>
+                        </div>
+                        <Button 
+                            variant="outline" 
+                            className="bg-white text-indigo-600 hover:bg-indigo-50 border-0 h-14 px-8 text-lg font-semibold shadow-2xl shrink-0"
+                            onClick={() => navigate('safetysessions')}
+                        >
+                            <Calendar className="w-5 h-5 mr-2" />
+                            Browse Sessions
+                        </Button>
                     </div>
                 </div>
             </div>
