@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Shield } from 'lucide-react';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
 
-const LoginPage = ({ navigate, onLogin }) => {
+const LoginPage = ({ onLogin }) => {
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
@@ -43,6 +45,7 @@ const LoginPage = ({ navigate, onLogin }) => {
                 localStorage.setItem('token', data.data.token);
                 localStorage.setItem('user', JSON.stringify(data.data));
                 onLogin();
+                navigate('/dashboard');
             } else {
                 setError(data.message || 'Login failed');
             }
@@ -123,7 +126,7 @@ const LoginPage = ({ navigate, onLogin }) => {
                     </form>
                     
                     <p className="mt-8 text-center text-slate-500 text-sm">
-                        Don't have an account? <a onClick={() => navigate('signup')} className="font-bold text-blue-600 hover:text-blue-500 cursor-pointer">Create Account</a>
+                        Don't have an account? <a onClick={() => navigate('/signup')} className="font-bold text-blue-600 hover:text-blue-500 cursor-pointer">Create Account</a>
                     </p>
                 </div>
             </div>
