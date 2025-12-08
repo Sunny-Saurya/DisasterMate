@@ -146,7 +146,7 @@ const About = ({ navigate }) => {
                 key={idx}
                 className="p-8 bg-white border border-slate-200 rounded-3xl shadow-xl hover:-translate-y-2 transition-all duration-300"
               >
-                <div className="w-20 h-20 mx-auto bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-2xl mb-4">
+                <div className="w-20 h-20 mx-auto bg-linear-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-2xl mb-4">
                   {name[0]}
                 </div>
                 <h3 className="text-xl font-bold text-slate-900">{name}</h3>

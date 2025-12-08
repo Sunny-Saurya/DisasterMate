@@ -8,6 +8,12 @@ import About from './pages/About';
 import Modules from './pages/Modules';
 import SafetyTips from './pages/SafetyTips';
 import { USER_NAME } from './data/mockData';
+import Contact from "./pages/Contact";
+import Emergency from './pages/Emergency';
+import Faq from './pages/Faq';
+import Resources from './pages/Resources';
+import Gallery from './pages/Gallery';
+
 
 const App = () => {
     const [page, setPage] = useState('home');
@@ -40,6 +46,11 @@ const App = () => {
                 {page === 'about' && <About navigate={navigate} />}
                 {page === 'modules' && <Modules navigate={navigate} />}
                 {page === 'safetytips' && <SafetyTips navigate={navigate} />}
+                {page === 'contact' && <Contact />}
+                {page === 'emergency' && <Emergency />}
+                {page === 'faq' && <Faq />}
+                {page === 'resources' && <Resources />}
+                {page === 'gallery' && <Gallery />}
             </main>
         </div>
     );

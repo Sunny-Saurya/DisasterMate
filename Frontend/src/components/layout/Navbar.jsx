@@ -51,8 +51,13 @@ const Navbar = ({ navigate, isLoggedIn, onLogout }) => {
                                 <button onClick={() => navigate('home')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Features</button>
                                 <button onClick={() => navigate('about')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>About</button>
                                 <button onClick={() => navigate('modules')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Modules</button>
+                                <button onClick={() => navigate('emergency')} className="px-4 py-2 font-medium hover:text-blue-600 transition-colors">Emergency</button>
+                                <button onClick={() => navigate('faq')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>FAQ</button>
+                                 <button onClick={() => navigate('gallery')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Gallery</button>
+                                <button onClick={() => navigate('resources')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Resources</button>
+                                 
+                                <button onClick={() => navigate('contact')} className="px-4 py-2 font-medium hover:text-blue-600 transition-colors">Contact Us</button>
                                 <button onClick={() => navigate('safetytips')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Safety tips</button>
-                                <button className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Resources</button>
                                 <Button onClick={() => navigate('login')} variant="primary" className="shadow-lg shadow-blue-600/20">Sign In</Button>
                             </>
                         ) : (
@@ -179,7 +184,7 @@ const Navbar = ({ navigate, isLoggedIn, onLogout }) => {
                         </div>
                     )}
                     <Button fullWidth variant="outline" onClick={() => { navigate('home'); setIsMobileMenuOpen(false); }}>Home</Button>
->>>>>>> 4d41e76 (Updated File)
+ (Updated File)
                     {!isLoggedIn ? (
                         <Button fullWidth onClick={() => { navigate('login'); setIsMobileMenuOpen(false); }}>Sign In</Button>
                     ) : (
