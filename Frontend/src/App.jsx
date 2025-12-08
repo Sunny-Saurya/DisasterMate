@@ -1,47 +1,82 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import HomePage from './pages/Home';
 import LoginPage from './pages/Login';
 import SignupPage from './pages/Signup';
 import Dashboard from './pages/Dashboard';
+import SafetySessions from './pages/SafetySessions';
 import About from './pages/About';
 import Modules from './pages/Modules';
 import SafetyTips from './pages/SafetyTips';
 import { USER_NAME } from './data/mockData';
 
-const App = () => {
-    const [page, setPage] = useState('home');
+const AppContent = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const location = useLocation();
 
-    const navigate = (target) => {
-        if (target === 'dashboard' && !isLoggedIn) {
-            setPage('login');
-        } else {
-            setPage(target);
-            window.scrollTo(0, 0);
+    useEffect(() => {
+        // Check if user is logged in from localStorage
+        const token = localStorage.getItem('token');
+        if (token) {
+            setIsLoggedIn(true);
         }
+    }, []);
+
+    const handleLogout = () => {
+        setIsLoggedIn(false);
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
     };
+
+    // Hide navbar on login, signup, and safetysessions pages
+    const hideNavbar = ['/login', '/signup', '/safetysessions'].includes(location.pathname);
 
     return (
         <div className="antialiased">
-            {page !== 'login' && page !== 'signup' && (
+            {!hideNavbar && (
                 <Navbar 
-                    navigate={navigate} 
                     isLoggedIn={isLoggedIn} 
-                    onLogout={() => { setIsLoggedIn(false); navigate('home'); }} 
+                    onLogout={handleLogout} 
                 />
             )}
 
             <main>
-                {page === 'home' && <HomePage navigate={navigate} />}
-                {page === 'login' && <LoginPage navigate={navigate} onLogin={() => { setIsLoggedIn(true); navigate('dashboard'); }} />}
-                {page === 'signup' && <SignupPage navigate={navigate} onLogin={() => { setIsLoggedIn(true); navigate('dashboard'); }} />}
-                {page === 'dashboard' && <Dashboard user={USER_NAME} />}
-                {page === 'about' && <About navigate={navigate} />}
-                {page === 'modules' && <Modules navigate={navigate} />}
-                {page === 'safetytips' && <SafetyTips navigate={navigate} />}
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route 
+                        path="/login" 
+                        element={<LoginPage onLogin={() => setIsLoggedIn(true)} />} 
+                    />
+                    <Route 
+                        path="/signup" 
+                        element={<SignupPage onLogin={() => setIsLoggedIn(true)} />} 
+                    />
+                    <Route 
+                        path="/dashboard" 
+                        element={
+                            isLoggedIn ? (
+                                <Dashboard user={USER_NAME} />
+                            ) : (
+                                <Navigate to="/login" replace />
+                            )
+                        } 
+                    />
+                    <Route path="/safetysessions" element={<SafetySessions />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/modules" element={<Modules />} />
+                    <Route path="/safetytips" element={<SafetyTips />} />
+                </Routes>
             </main>
         </div>
+    );
+};
+
+const App = () => {
+    return (
+        <Router>
+            <AppContent />
+        </Router>
     );
 };
 
