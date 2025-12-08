@@ -6,11 +6,15 @@ import Card from '../components/ui/Card';
 import Marquee from '../components/ui/Marquee';
 import Carousel from '../components/ui/Carousel';
 import { Lens } from '../components/ui/Lens';
+import { SmoothCursor } from '../components/ui/SmoothCursor';
+import { VideoText } from '../components/ui/VideoText';
 
 const HomePage = () => {
     const navigate = useNavigate();
     
     return (
+        <>
+        <SmoothCursor />
         <div className="min-h-screen bg-white font-sans selection:bg-blue-100">
         {/* --- Hero Section --- */}
         <div className="relative overflow-hidden pt-32 pb-20 lg:pt-40 lg:pb-28">
@@ -39,8 +43,18 @@ const HomePage = () => {
                         </div>
                         
                         <Lens zoomFactor={1.5} lensSize={200}>
-                        <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight mb-6 leading-tight">
-                            Resilience Starts <br />
+                        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
+                            <div className="inline-block relative w-[600px] h-[100px] md:w-[700px] md:h-[120px] align-middle">
+                                <VideoText 
+                                    src="https://videos.pexels.com/video-files/1918465/1918465-hd_1920_1080_25fps.mp4"
+                                    fontSize="100px"
+                                    fontWeight="900"
+                                    fontFamily="system-ui, sans-serif"
+                                >
+                                    Resilience
+                                </VideoText>
+                            </div>
+                            <span className="text-slate-900"> Starts</span> <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Before the Storm.</span>
                         </h1>
                         </Lens>
@@ -475,6 +489,7 @@ const HomePage = () => {
             </div>
         </div>
         </div>
+        </>
     );
 };
 
