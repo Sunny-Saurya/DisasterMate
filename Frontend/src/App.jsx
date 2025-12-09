@@ -9,6 +9,7 @@ import SafetySessions from './pages/SafetySessions';
 import About from './pages/About';
 import Modules from './pages/Modules';
 import SafetyTips from './pages/SafetyTips';
+import DisasterPage from './pages/DisasterPage';
 import { USER_NAME } from './data/mockData';
 
 const AppContent = () => {
@@ -66,6 +67,8 @@ const AppContent = () => {
                     <Route path="/about" element={<About />} />
                     <Route path="/modules" element={<Modules />} />
                     <Route path="/safetytips" element={<SafetyTips />} />
+                    <Route path="/disaster" element={<DisasterPage />} />
+
                 </Routes>
             </main>
         </div>
