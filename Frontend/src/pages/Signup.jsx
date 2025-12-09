@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Shield, ArrowRight } from 'lucide-react';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
 
-const SignupPage = ({ navigate, onLogin }) => {
+const SignupPage = ({ onLogin }) => {
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
         firstName: '',
@@ -64,6 +66,7 @@ const SignupPage = ({ navigate, onLogin }) => {
                 localStorage.setItem('token', data.data.token);
                 localStorage.setItem('user', JSON.stringify(data.data));
                 onLogin();
+                navigate('/dashboard');
             } else {
                 setError(data.message || 'Signup failed');
             }
@@ -177,7 +180,7 @@ const SignupPage = ({ navigate, onLogin }) => {
                     </form>
                     
                     <p className="mt-8 text-center text-slate-500 text-sm">
-                        Already have an account? <a onClick={() => navigate('login')} className="font-bold text-blue-600 hover:text-blue-500 cursor-pointer">Log In</a>
+                        Already have an account? <a onClick={() => navigate('/login')} className="font-bold text-blue-600 hover:text-blue-500 cursor-pointer">Log In</a>
                     </p>
                 </div>
             </div>
