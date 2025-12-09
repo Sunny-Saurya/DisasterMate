@@ -8,6 +8,9 @@ import Carousel from '../components/ui/Carousel';
 import { Lens } from '../components/ui/Lens';
 import { SmoothCursor } from '../components/ui/SmoothCursor';
 import { VideoText } from '../components/ui/VideoText';
+import { MacbookScroll } from '../components/ui/macbook-scroll';
+import { Cover } from '../components/ui/cover';
+import { Spotlight } from '../components/ui/spotlight';
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -18,6 +21,9 @@ const HomePage = () => {
         <div className="min-h-screen bg-white font-sans selection:bg-blue-100">
         {/* --- Hero Section --- */}
         <div className="relative overflow-hidden pt-32 pb-20 lg:pt-40 lg:pb-28">
+            <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="blue" />
+            <Spotlight className="top-10 left-full h-[80vh] w-[50vw]" fill="purple" />
+            <Spotlight className="top-28 left-80 h-[80vh] w-[50vw]" fill="cyan" />
             <div className="absolute top-0 right-0 -z-10 translate-x-1/3 -translate-y-1/4">
                 <svg viewBox="0 0 1024 1024" className="h-[64rem] w-[64rem] opacity-20" aria-hidden="true">
                     <circle cx="512" cy="512" r="512" fill="url(#gradient)" fillOpacity="0.7" />
@@ -42,22 +48,10 @@ const HomePage = () => {
                             Live Disaster Response System Active
                         </div>
                         
-                        <Lens zoomFactor={1.5} lensSize={200}>
-                        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
-                            <div className="inline-block relative w-[600px] h-[100px] md:w-[700px] md:h-[120px] align-middle">
-                                <VideoText 
-                                    src="https://videos.pexels.com/video-files/1918465/1918465-hd_1920_1080_25fps.mp4"
-                                    fontSize="100px"
-                                    fontWeight="900"
-                                    fontFamily="system-ui, sans-serif"
-                                >
-                                    Resilience
-                                </VideoText>
-                            </div>
-                            <span className="text-slate-900"> Starts</span> <br />
+                        <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight mb-6 leading-tight">
+                            <Cover>Resilience</Cover> Starts <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Before the Storm.</span>
                         </h1>
-                        </Lens>
                         
                         <p className="text-xl text-slate-600 mb-10 leading-relaxed max-w-2xl mx-auto lg:mx-0">
                             DisasterMate empowers communities with real-time alerts, personalized survival drills, and offline guides. Don't just react—be prepared.
@@ -84,38 +78,73 @@ const HomePage = () => {
                         </div>
                     </div>
 
-                    {/* Hero Image/SVG */}
-                    <div className="relative hidden lg:block">
-                        <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-transparent rounded-full blur-3xl transform translate-x-10 translate-y-10"></div>
-                         <div className="relative bg-white/50 backdrop-blur-sm border border-white/60 p-6 rounded-3xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500">
-                            <div className="bg-slate-900 rounded-2xl p-6 text-white space-y-4">
-                                <div className="flex items-center justify-between border-b border-slate-700 pb-4">
-                                    <div className="flex items-center gap-3">
-                                        <div className="p-2 bg-red-500/20 rounded-lg">
-                                            <Zap className="w-6 h-6 text-red-500" />
-                                        </div>
-                                        <div>
-                                            <div className="font-bold">Emergency Alert</div>
-                                            <div className="text-xs text-slate-400">Just Now</div>
-                                        </div>
+                    {/* Hero Image/SVG - Enhanced Design */}
+                    <div className="relative hidden lg:block h-[600px]">
+                        {/* Floating Alert Card - Main */}
+                        <div className="absolute top-0 right-0 w-[400px] bg-white/90 backdrop-blur-xl border border-slate-200 rounded-2xl shadow-2xl p-6 animate-float z-20">
+                            <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center gap-3">
+                                    <div className="p-2 bg-red-500/10 rounded-xl">
+                                        <Zap className="w-6 h-6 text-red-500" />
                                     </div>
-                                    <div className="px-2 py-1 bg-red-500 text-xs font-bold rounded">CRITICAL</div>
-                                </div>
-                                <div className="space-y-2">
-                                    <div className="h-2 bg-slate-700 rounded w-3/4"></div>
-                                    <div className="h-2 bg-slate-700 rounded w-1/2"></div>
-                                </div>
-                                <div className="grid grid-cols-2 gap-4 pt-4">
-                                    <div className="bg-slate-800 p-3 rounded-xl text-center">
-                                        <ShieldCheck className="w-6 h-6 text-emerald-400 mx-auto mb-2" />
-                                        <div className="text-xs text-slate-400">Safe Zone</div>
-                                    </div>
-                                    <div className="bg-slate-800 p-3 rounded-xl text-center">
-                                        <BookOpen className="w-6 h-6 text-blue-400 mx-auto mb-2" />
-                                        <div className="text-xs text-slate-400">Guide</div>
+                                    <div>
+                                        <div className="font-bold text-slate-900">Emergency Alert</div>
+                                        <div className="text-xs text-slate-500">Just Now</div>
                                     </div>
                                 </div>
+                                <div className="px-3 py-1 bg-red-500 text-white text-xs font-bold rounded-full">CRITICAL</div>
                             </div>
+                            <div className="bg-slate-50 rounded-xl p-4 mb-4">
+                                <div className="h-2 bg-slate-200 rounded-full mb-2"></div>
+                                <div className="h-2 bg-slate-200 rounded-full w-3/4 mb-2"></div>
+                                <div className="h-2 bg-slate-200 rounded-full w-1/2"></div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-3">
+                                <button className="flex items-center justify-center gap-2 bg-emerald-50 hover:bg-emerald-100 transition-colors p-3 rounded-xl group">
+                                    <ShieldCheck className="w-5 h-5 text-emerald-600 group-hover:scale-110 transition-transform" />
+                                    <span className="text-sm font-semibold text-emerald-700">Safe Zone</span>
+                                </button>
+                                <button className="flex items-center justify-center gap-2 bg-blue-50 hover:bg-blue-100 transition-colors p-3 rounded-xl group">
+                                    <BookOpen className="w-5 h-5 text-blue-600 group-hover:scale-110 transition-transform" />
+                                    <span className="text-sm font-semibold text-blue-700">Guide</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Floating Stats Card */}
+                        <div className="absolute top-[280px] left-0 w-[180px] bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl shadow-xl p-5 animate-float-delayed z-10">
+                            <div className="text-white">
+                                <Activity className="w-8 h-8 mb-3 opacity-80" />
+                                <div className="text-3xl font-bold mb-1">24/7</div>
+                                <div className="text-sm text-blue-100">Live Monitoring</div>
+                            </div>
+                        </div>
+
+                        {/* Floating Mini Card - Users */}
+                        <div className="absolute bottom-[180px] right-[80px] w-[160px] bg-white/90 backdrop-blur-xl border border-slate-200 rounded-xl shadow-lg p-4 animate-float z-10">
+                            <div className="flex items-center gap-2 mb-2">
+                                <Users className="w-5 h-5 text-indigo-600" />
+                                <span className="text-xs font-semibold text-slate-600">Active Users</span>
+                            </div>
+                            <div className="text-2xl font-bold text-slate-900">10,000+</div>
+                            <div className="text-xs text-emerald-600 font-medium mt-1">↗ +15% this week</div>
+                        </div>
+
+                        {/* Floating Mini Card - Response */}
+                        <div className="absolute bottom-[60px] left-[40px] w-[180px] bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl shadow-xl p-4 animate-float-delayed-2 z-10">
+                            <div className="text-white">
+                                <Clock className="w-6 h-6 mb-2 opacity-80" />
+                                <div className="text-2xl font-bold mb-1">&lt;2 min</div>
+                                <div className="text-sm text-emerald-100">Avg Response Time</div>
+                            </div>
+                        </div>
+
+                        {/* Decorative Dots Pattern */}
+                        <div className="absolute inset-0 opacity-20 pointer-events-none">
+                            <div className="absolute top-20 right-40 w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                            <div className="absolute top-40 right-20 w-2 h-2 bg-indigo-500 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+                            <div className="absolute bottom-40 left-20 w-2 h-2 bg-emerald-500 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+                            <div className="absolute bottom-60 right-60 w-2 h-2 bg-purple-500 rounded-full animate-pulse" style={{animationDelay: '1.5s'}}></div>
                         </div>
                     </div>
                 </div>
@@ -164,6 +193,20 @@ const HomePage = () => {
                     </div>
                 ))}
             </Marquee>
+        </div>
+
+        {/* --- MacBook Scroll Section --- */}
+        <div className="bg-black overflow-hidden">
+            <MacbookScroll 
+                src="https://images.pexels.com/photos/942560/pexels-photo-942560.jpeg"
+                showGradient={true}
+                title={
+                    <span className="text-white text-5xl">
+                        Experience DisasterMate <br />
+                        <span className="text-blue-400">Your Safety Companion</span>
+                    </span>
+                }
+            />
         </div>
 
         {/* --- Features Section --- */}
