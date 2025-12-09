@@ -256,7 +256,7 @@ const HomePage = () => {
                                 <feature.icon className="w-7 h-7" />
                             </div>
                             <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">{feature.title}</h3>
-                            <p className="text-slate-600 leading-relaxed flex-grow">{feature.desc}</p>
+                            <p className="text-slate-600 leading-relaxed grow">{feature.desc}</p>
                             <div className="mt-8 flex items-center text-sm font-bold text-blue-600 group-hover:gap-2 transition-all">
                                 Learn more <ArrowRight className="ml-2 w-4 h-4" />
                             </div>
@@ -315,7 +315,7 @@ const HomePage = () => {
                         </div>
 
                     {/* Lens Card 2 - Offline Guides */}
-                        <div className="relative bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl p-8 h-96 overflow-hidden group cursor-pointer">
+                        <div className="relative bg-linear-to-br from-blue-600 to-indigo-600 rounded-2xl p-8 h-96 overflow-hidden group cursor-pointer">
                             <div className="absolute inset-0 bg-black/20"></div>
                             <div className="absolute inset-0 opacity-10" style={{
                                 backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
@@ -349,7 +349,7 @@ const HomePage = () => {
                         </div>
 
                     {/* Lens Card 3 - Practice Drills */}
-                        <div className="relative bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl p-8 h-96 overflow-hidden group cursor-pointer">
+                        <div className="relative bg-linear-to-br from-emerald-500 to-teal-600 rounded-2xl p-8 h-96 overflow-hidden group cursor-pointer">
                             <div className="absolute inset-0 bg-black/20"></div>
                             <div className="absolute inset-0 opacity-10" style={{
                                 backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
@@ -417,7 +417,7 @@ const HomePage = () => {
         </Lens>
 
         {/* --- Success Stories Carousel Section --- */}
-        <div className="py-24 bg-gradient-to-b from-slate-50 to-white">
+        <div className="py-24 bg-linear-to-b from-slate-50 to-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
                     <h2 className="text-blue-600 font-semibold tracking-wide uppercase text-sm mb-3">Success Stories</h2>
@@ -474,7 +474,7 @@ const HomePage = () => {
                         </div>,
                         
                         // Testimonial 3
-                        <div className="bg-gradient-to-br from-purple-600 to-pink-600 p-12 md:p-16 text-white min-h-[400px] flex flex-col justify-center">
+                        <div className="bg-linear-to-br from-purple-600 to-pink-600 p-12 md:p-16 text-white min-h-[400px] flex flex-col justify-center">
                             <div className="max-w-4xl mx-auto">
                                 <div className="flex justify-center md:justify-start mb-6">
                                     {[1,2,3,4,5].map(i => <Star key={i} className="w-6 h-6 text-yellow-300 fill-current" />)}
@@ -495,7 +495,7 @@ const HomePage = () => {
                         </div>,
 
                         // Testimonial 4
-                        <div className="bg-gradient-to-br from-orange-600 to-red-600 p-12 md:p-16 text-white min-h-[400px] flex flex-col justify-center">
+                        <div className="bg-linear-to-br from-orange-600 to-red-600 p-12 md:p-16 text-white min-h-[400px] flex flex-col justify-center">
                             <div className="max-w-4xl mx-auto">
                                 <div className="flex justify-center md:justify-start mb-6">
                                     {[1,2,3,4,5].map(i => <Star key={i} className="w-6 h-6 text-yellow-300 fill-current" />)}

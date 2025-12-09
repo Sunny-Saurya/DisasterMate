@@ -64,7 +64,7 @@ const SafetySessions = () => {
                                 <ArrowLeft className="w-5 h-5 text-slate-600" />
                             </button>
                             <div className="flex items-center gap-2">
-                                <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                                <div className="w-10 h-10 bg-linear-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
                                     <GraduationCap className="w-6 h-6 text-white" />
                                 </div>
                                 <div>
@@ -89,7 +89,7 @@ const SafetySessions = () => {
             </nav>
 
             {/* Hero Section with Background */}
-            <div className="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 overflow-hidden">
+            <div className="relative bg-linear-to-br from-indigo-600 via-purple-600 to-pink-500 overflow-hidden">
                 {/* Animated Background Pattern */}
                 <div className="absolute inset-0 opacity-20">
                     <div className="absolute inset-0" style={{
@@ -110,7 +110,7 @@ const SafetySessions = () => {
                         </div>
                         <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
                             Master Emergency <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-pink-200">
+                            <span className="text-transparent bg-clip-text bg-linear-to-r from-yellow-200 to-pink-200">
                                 Preparedness Skills
                             </span>
                         </h1>
@@ -171,7 +171,7 @@ const SafetySessions = () => {
                         }
                     ].map((feature, idx) => (
                         <div key={idx} className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100 hover:shadow-xl transition-all hover:-translate-y-1">
-                            <div className={`w-14 h-14 bg-gradient-to-br ${feature.color} rounded-2xl flex items-center justify-center mb-4 shadow-lg`}>
+                            <div className={`w-14 h-14 bg-linear-to-br ${feature.color} rounded-2xl flex items-center justify-center mb-4 shadow-lg`}>
                                 <feature.icon className="w-7 h-7 text-white" />
                             </div>
                             <h3 className="text-lg font-bold text-slate-900 mb-2">{feature.title}</h3>
@@ -215,7 +215,7 @@ const SafetySessions = () => {
                                     onClick={() => session.available && handleSessionSelect(session)}
                                 >
                                     {/* Gradient Header with Pattern */}
-                                    <div className={`relative h-48 bg-gradient-to-br ${gradients[index % gradients.length]} overflow-hidden`}>
+                                    <div className={`relative h-48 bg-linear-to-br ${gradients[index % gradients.length]} overflow-hidden`}>
                                         <div className="absolute inset-0 opacity-30" style={{
                                             backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
                                             backgroundSize: '30px 30px'
@@ -313,7 +313,7 @@ const SafetySessions = () => {
                 </div>
 
                 {/* Call to Action */}
-                <div className="mt-16 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl p-12 text-center text-white shadow-2xl relative overflow-hidden">
+                <div className="mt-16 bg-linear-to-r from-indigo-600 to-purple-600 rounded-3xl p-12 text-center text-white shadow-2xl relative overflow-hidden">
                     <div className="absolute inset-0 opacity-20" style={{
                         backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
                         backgroundSize: '40px 40px'
@@ -335,7 +335,7 @@ const SafetySessions = () => {
                 <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
                     <div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-in zoom-in-95 duration-200">
                         {/* Modal Header */}
-                        <div className="sticky top-0 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-5 flex items-center justify-between rounded-t-3xl">
+                        <div className="sticky top-0 bg-linear-to-r from-indigo-600 to-purple-600 text-white px-6 py-5 flex items-center justify-between rounded-t-3xl">
                             <div>
                                 <h3 className="text-2xl font-bold">Book Your Session</h3>
                                 <p className="text-indigo-200 text-sm mt-1">{selectedSession.type}</p>
