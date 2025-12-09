@@ -50,26 +50,14 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
                     <div className="hidden md:flex items-center space-x-8">
                         {!isLoggedIn ? (
                             <>
-<<<<<<< HEAD
-                                <button onClick={() => navigate('home')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Features</button>
-                                <button onClick={() => navigate('about')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>About</button>
-                                <button onClick={() => navigate('modules')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Modules</button>
-                                <button onClick={() => navigate('emergency')} className="px-4 py-2 font-medium hover:text-blue-600 transition-colors">Emergency</button>
-                                <button onClick={() => navigate('faq')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>FAQ</button>
-                                 <button onClick={() => navigate('gallery')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Gallery</button>
-                                <button onClick={() => navigate('resources')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Resources</button>
-                                 
-                                <button onClick={() => navigate('contact')} className="px-4 py-2 font-medium hover:text-blue-600 transition-colors">Contact Us</button>
-                                <button onClick={() => navigate('safetytips')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Safety tips</button>
-                                <Button onClick={() => navigate('login')} variant="primary" className="shadow-lg shadow-blue-600/20">Sign In</Button>
-=======
                                 <button onClick={() => navigate('/')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Features</button>
                                 <button onClick={() => navigate('/about')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>About</button>
                                 <button onClick={() => navigate('/modules')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Modules</button>
-                                <button onClick={() => navigate('/safetytips')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Safety tips</button>
-                                <button className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Resources</button>
+                                <button onClick={() => navigate('/emergency')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Emergency</button>
+                                <button onClick={() => navigate('/gallery')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Gallery</button>
+                                <button onClick={() => navigate('/contact')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Contact Us</button>
+                                <button onClick={() => navigate('/resources')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Resources</button>
                                 <Button onClick={() => navigate('/login')} variant="primary" className="shadow-lg shadow-blue-600/20">Sign In</Button>
->>>>>>> ab00e1788b494fa13ba08ae45dfc0cda7e192ad1
                             </>
                         ) : (
                             <>
@@ -181,7 +169,12 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
                     <Button fullWidth variant="outline" onClick={() => navigate('/about')}>About</Button>
                     <Button fullWidth variant="outline" onClick={() => navigate('/modules')}>Modules</Button>
                     <Button fullWidth variant="outline" onClick={() => navigate('/safetytips')}>Safety Tips</Button>
-
+                    <Button fullWidth variant="outline" onClick={() => navigate('/emergency')}>Emergency</Button>
+                    <Button fullWidth variant="outline" onClick={() => navigate('/gallery')}>Gallery</Button>
+                    <Button fullWidth variant="outline" onClick={() => navigate('/faq')}>FAQ</Button>
+                    <Button fullWidth variant="outline" onClick={() => navigate('/contact')}>Contact Us</Button>
+                    <Button fullWidth variant="outline" onClick={() => navigate('/resources')}>Resources</Button>
+                    
                     {isLoggedIn && userData && (
                         <div className="bg-slate-50 rounded-xl p-4 mb-4">
                             <div className="flex items-center space-x-3 mb-3">
@@ -195,13 +188,8 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
                             </div>
                         </div>
                     )}
-<<<<<<< HEAD
-                    <Button fullWidth variant="outline" onClick={() => { navigate('home'); setIsMobileMenuOpen(false); }}>Home</Button>
- (Updated File)
-=======
                     <Button fullWidth variant="outline" onClick={() => { navigate('/'); setIsMobileMenuOpen(false); }}>Home</Button>
 
->>>>>>> ab00e1788b494fa13ba08ae45dfc0cda7e192ad1
                     {!isLoggedIn ? (
                         <Button fullWidth onClick={() => { navigate('/login'); setIsMobileMenuOpen(false); }}>Sign In</Button>
                     ) : (

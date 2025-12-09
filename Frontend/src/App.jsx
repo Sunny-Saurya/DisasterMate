@@ -48,20 +48,6 @@ const AppContent = () => {
             )}
 
             <main>
-<<<<<<< HEAD
-                {page === 'home' && <HomePage navigate={navigate} />}
-                {page === 'login' && <LoginPage navigate={navigate} onLogin={() => { setIsLoggedIn(true); navigate('dashboard'); }} />}
-                {page === 'signup' && <SignupPage navigate={navigate} onLogin={() => { setIsLoggedIn(true); navigate('dashboard'); }} />}
-                {page === 'dashboard' && <Dashboard user={USER_NAME} />}
-                {page === 'about' && <About navigate={navigate} />}
-                {page === 'modules' && <Modules navigate={navigate} />}
-                {page === 'safetytips' && <SafetyTips navigate={navigate} />}
-                {page === 'contact' && <Contact />}
-                {page === 'emergency' && <Emergency />}
-                {page === 'faq' && <Faq />}
-                {page === 'resources' && <Resources />}
-                {page === 'gallery' && <Gallery />}
-=======
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route 
@@ -86,8 +72,12 @@ const AppContent = () => {
                     <Route path="/about" element={<About />} />
                     <Route path="/modules" element={<Modules />} />
                     <Route path="/safetytips" element={<SafetyTips />} />
+                    <Route path="/emergency" element={<Emergency />} />
+                    <Route path="/Faq" element={<Faq />} />
+                    <Route path="/Gallery" element={<Gallery />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/Resources" element={<Resources />} />
                 </Routes>
->>>>>>> ab00e1788b494fa13ba08ae45dfc0cda7e192ad1
             </main>
         </div>
     );
