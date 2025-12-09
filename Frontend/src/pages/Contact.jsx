@@ -39,16 +39,16 @@ export default function Contact() {
     <div className="min-h-screen bg-gray-100 py-16 px-5">
       <div className="max-w-5xl mx-auto">
         
-        {/* Header */}
+        
         <h1 className="text-4xl font-bold text-center text-gray-800">Contact Us</h1>
         <p className="text-center text-gray-600 mt-2">
           Get in touch with the <span className="font-bold text-red-500">DisasterMate</span> Team
         </p>
 
-        {/* Main Grid */}
+       
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-10">
 
-          {/* Contact Form */}
+          {/* form */}
           <form onSubmit={handleSubmit} className="bg-white p-8 rounded-xl shadow-md">
             <h2 className="text-2xl font-semibold mb-4">Send us a Message</h2>
 
@@ -101,7 +101,7 @@ export default function Contact() {
             {status && <p className="mt-4 text-green-600 font-medium">{status}</p>}
           </form>
 
-          {/* Contact Info (Right Side) */}
+          {/* information: */}
           <div className="bg-white p-8 rounded-xl shadow-md">
             <h2 className="text-2xl font-semibold mb-4">Emergency Contact</h2>
             <p className="text-lg font-medium">24/7 Disaster Helpline:</p>
@@ -123,13 +123,20 @@ export default function Contact() {
             <div className="mt-8">
               <h3 className="text-xl font-semibold">Follow Us:</h3>
               <div className="flex gap-4 mt-2 text-blue-600 font-medium items-center">
-                <span className="cursor-pointer hover:underline"><Twitter /> Twitter</span>
-                <span className="cursor-pointer hover:underline"><Facebook /> Facebook</span>
-                <span className="cursor-pointer hover:underline"><Instagram /> Instagram</span>
+                <a href="https://twitter.com/disasterMate" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 hover:underline">
+                  <Twitter /> Twitter
+                </a>
+                <a href="https://facebook.com/disastermate" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 hover:underline">
+                  <Facebook /> Facebook
+                </a>
+                <a href="https://instagram.com/DisasterMate" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 hover:underline">
+                  <Instagram /> Instagram
+                </a>
               </div>
             </div>
 
-            {/* FAQ & Location Buttons */}
+
+{/* button to move to Faq page */}
             <div className="mt-8 flex flex-col sm:flex-row gap-4">
               <Link
                 to="/faq"
@@ -148,7 +155,7 @@ export default function Contact() {
           </div>
         </div>
 
-        {/* Location Section */}
+        
         <div className="mt-10">
           <h2 className="text-2xl font-bold mb-2 text-gray-700">Your Location</h2>
 

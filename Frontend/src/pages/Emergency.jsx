@@ -21,7 +21,7 @@ export default function Emergency() {
   const [autoCall, setAutoCall] = useState(false);
   const [useSMSfallback, setUseSMSfallback] = useState(true);
 
-  // Live Time
+//  fetch current time
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date().toLocaleTimeString());
@@ -29,7 +29,6 @@ export default function Emergency() {
     return () => clearInterval(timer);
   }, []);
 
-  // Save contacts
   useEffect(() => {
     try {
       localStorage.setItem("dm_emergency_contacts", JSON.stringify(contacts));
@@ -49,7 +48,7 @@ export default function Emergency() {
     );
   };
 
-  // download PDF
+  // PDF
   const downloadPDF = () => {
     const doc = new jsPDF({ unit: "pt", format: "a4" });
 
@@ -176,7 +175,7 @@ export default function Emergency() {
           </p>
         </header>
 
-        {/* --- ADDED SAFETY TIPS BUTTON HERE --- */}
+        
         <div className="mt-6 flex justify-center">
           <Link
             to="/safetytips"
@@ -187,7 +186,7 @@ export default function Emergency() {
           </Link>
         </div>
 
-        {/* Emergency Numbers */}
+        
         <section className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
             { title: "Emergency", number: "112", color: "red" },
@@ -211,7 +210,6 @@ export default function Emergency() {
           ))}
         </section>
 
-        {/* Action Buttons */}
         <section className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
           <button
             onClick={() => setShowSOSModal(true)}
@@ -235,7 +233,7 @@ export default function Emergency() {
           </button>
         </section>
 
-        {/* Hospital Link */}
+        {/* Hospital */}
         <div className="mt-10 flex justify-center">
           <a
             href="https://www.google.com/maps/search/hospitals+near+me/"
@@ -247,7 +245,7 @@ export default function Emergency() {
           </a>
         </div>
 
-        {/* Safety Tips Preview */}
+        {/* Safety Tips*/}
         <h2 className="text-4xl font-bold mt-16 text-gray-900 text-center">
           Quick Safety Tips
         </h2>
@@ -274,7 +272,7 @@ export default function Emergency() {
           ))}
         </section>
 
-        {/* Emergency Kit */}
+        {/* Kit */}
         <h2 className="text-4xl font-bold mt-16 text-gray-900 text-center">
           Emergency Kit Essentials
         </h2>
@@ -306,9 +304,8 @@ export default function Emergency() {
         <p className="text-center text-gray-600 mt-16 mb-10">
           Stay safe. DisasterMate is your emergency companion.
         </p>
-
-        {/* SOS Modal */}
-        {showSOSModal && (
+ 
+         {showSOSModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start md:items-center overflow-auto z-50 p-4">
             <div className="bg-white p-6 rounded-2xl w-full max-w-xl shadow-2xl animate-slideUp">
               <h2 className="text-2xl font-bold text-red-600">
@@ -318,7 +315,7 @@ export default function Emergency() {
                 This will send an SOS message with your live location.
               </p>
 
-              {/* Contacts editor */}
+              {/* Contacts*/}
               <div className="mt-4">
                 <label className="block text-sm font-semibold mb-2">
                   Emergency Contacts

@@ -124,6 +124,30 @@ const ALL_GALLERY_IMAGES = [
         category: "Fire Rescue",
         tags: ["fire", "hose", "containment"],
     },
+     {
+        src: "https://images.unsplash.com/photo-1584739555405-37e477519d5e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWVkaWNhbCUyMGFpZCUyMGZvciUyMGRpc2FzdGVyJTIwcHJlcGFyZWRuZXNzfGVufDB8fDB8fHww",
+        alt: "Emergency medical services tending to a person in a disaster zone.",
+        category: "Medical Aid",
+        tags: ["medical", "aid", "emergency", "paramedics"],
+    },
+     {
+        src: "https://plus.unsplash.com/premium_photo-1664303503818-a6fab2dcfd91?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fG1lZGljYWwlMjBhaWQlMjBmb3IlMjBkaXNhc3RlciUyMHByZXBhcmVkbmVzc3xlbnwwfHwwfHx8MA%3D%3D",
+        alt: "Emergency medical services tending to a person in a disaster zone.",
+        category: "Medical Aid",
+        tags: ["medical", "aid", "emergency", "paramedics"],
+    },
+     {
+        src: "https://plus.unsplash.com/premium_photo-1681995602372-f37dfb97dc95?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzN8fG1lZGljYWwlMjBhaWQlMjBmb3IlMjBkaXNhc3RlciUyMHByZXBhcmVkbmVzc3xlbnwwfHwwfHx8MA%3D%3D",
+        alt: "Emergency medical services tending to a person in a disaster zone.",
+        category: "Medical Aid",
+        tags: ["medical", "aid", "emergency", "paramedics"],
+    },
+     {
+        src: "https://images.unsplash.com/photo-1659718282409-203239812162?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzR8fG1lZGljYWwlMjBhaWQlMjBmb3IlMjBkaXNhc3RlciUyMHByZXBhcmVkbmVzc3xlbnwwfHwwfHx8MA%3D%3D",
+        alt: "Emergency medical services tending to a person in a disaster zone.",
+        category: "Medical Aid",
+        tags: ["medical", "aid", "emergency", "paramedics"],
+    },
 ];
 
 
@@ -216,8 +240,8 @@ const ImageCarousel = ({ images }) => {
                 <ChevronRight className="w-6 h-6 text-gray-700" />
             </button>
 
-            {/* Dots */}
-            <div className="absolute bottom-4 w-full flex justify-center gap-3 z-10"> {/* Added z-10 to place dots above description bar */}
+            
+            <div className="absolute bottom-4 w-full flex justify-center gap-3 z-10"> 
                 {images.map((_, idx) => (
                     <button
                         key={idx}
@@ -239,7 +263,7 @@ const ImageCarousel = ({ images }) => {
 
 const GalleryControls = ({ searchTerm, setSearchTerm, selectedCategory, setSelectedCategory, categories }) => (
     <div className="flex flex-col md:flex-row gap-4 mb-8">
-        {/* Search Bar */}
+        
         <div className="relative flex-grow">
             <input
                 type="text"
@@ -251,7 +275,7 @@ const GalleryControls = ({ searchTerm, setSearchTerm, selectedCategory, setSelec
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
         </div>
 
-        {/* Category Filter Dropdown */}
+        
         <div className="relative md:w-56">
             <select
                 className="appearance-none w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg transition-all duration-300 focus:ring-4 focus:ring-blue-500 focus:border-blue-500 bg-white shadow-sm hover:shadow-md"
@@ -297,7 +321,7 @@ const ImageGrid = ({ images, setLightbox }) => {
                         className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
                         loading="lazy"
                     />
-                    {/* Overlay for metadata */}
+                    
                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
                         <p className="text-white font-semibold text-sm drop-shadow-md translate-y-2 group-hover:translate-y-0 transition duration-300">
                             {img.category}
@@ -327,7 +351,7 @@ const LightboxModal = ({ lightbox, filteredImages, setLightbox, navigateLightbox
                 onClick={e => e.stopPropagation()}
             >
 
-                {/* Image */}
+                
                 <img
                     src={currentImage.src}
                     alt={currentImage.alt}
@@ -360,7 +384,7 @@ const LightboxModal = ({ lightbox, filteredImages, setLightbox, navigateLightbox
                     <ChevronRight className="w-6 h-6 text-gray-800" />
                 </button>
 
-                {/* Image Description/Metadata */}
+            
                 <div className="absolute bottom-0 left-0 right-0 bg-black/50 p-4 rounded-b-xl text-white transform transition duration-300">
                     <p className="font-bold text-lg">{currentImage.category}</p>
                     <p className="text-sm mt-1">{currentImage.alt}</p>
@@ -370,7 +394,7 @@ const LightboxModal = ({ lightbox, filteredImages, setLightbox, navigateLightbox
                                 key={tag}
                                 className="text-xs bg-blue-600/70 px-2 py-1 rounded-full cursor-pointer transition-colors hover:bg-blue-600 hover:scale-105"
                                 onClick={(e) => {
-                                    e.stopPropagation(); // Prevent closing the lightbox
+                                    e.stopPropagation(); 
                                     setSearchTerm(tag);
                                     setLightbox({ open: false, imgIndex: null });
                                 }}
@@ -390,15 +414,15 @@ const LightboxModal = ({ lightbox, filteredImages, setLightbox, navigateLightbox
 
 
 const Gallery = () => {
-    // Gallery State
+    
     const [filteredImages, setFilteredImages] = useState(ALL_GALLERY_IMAGES);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("All Categories");
 
-    // Lightbox modal state
+    
     const [lightbox, setLightbox] = useState({ open: false, imgIndex: null });
 
-    // --- Lightbox Navigation Logic (Memoized) ---
+    
     const navigateLightbox = useCallback((direction) => {
         if (lightbox.imgIndex === null) return;
 
@@ -432,16 +456,16 @@ const Gallery = () => {
     }, [lightbox.open, navigateLightbox]);
 
 
-    // Filtering logic for the main gallery
+    
     useEffect(() => {
         let newFilteredImages = ALL_GALLERY_IMAGES;
 
-        // 1. Filter by Category
+        
         if (selectedCategory !== "All Categories") {
             newFilteredImages = newFilteredImages.filter(img => img.category === selectedCategory);
         }
 
-        // 2. Filter by Search Term (on alt text or tags)
+        
         if (searchTerm) {
             const lowerSearchTerm = searchTerm.toLowerCase();
             newFilteredImages = newFilteredImages.filter(
@@ -461,7 +485,7 @@ const Gallery = () => {
         <div className="min-h-screen bg-gray-50 py-16 px-6">
             <div className="max-w-7xl mx-auto">
 
-                {/* Title */}
+                
                 <div className="text-center mb-12">
                     <h1 className="text-5xl md:text-6xl font-extrabold text-blue-700 drop-shadow-md bg-gradient-to-r from-blue-700 to-blue-500 bg-clip-text text-transparent transition duration-500 hover:text-blue-900">
                         🚨  DisasterMate's Gallery
