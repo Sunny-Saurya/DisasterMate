@@ -11,6 +11,12 @@ import Modules from './pages/Modules';
 import SafetyTips from './pages/SafetyTips';
 import DisasterPage from './pages/DisasterPage';
 import { USER_NAME } from './data/mockData';
+import Contact from "./pages/Contact";
+import Emergency from './pages/Emergency';
+import Faq from './pages/Faq';
+import Resources from './pages/Resources';
+import Gallery from './pages/Gallery';
+
 
 const AppContent = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -67,6 +73,11 @@ const AppContent = () => {
                     <Route path="/about" element={<About />} />
                     <Route path="/modules" element={<Modules />} />
                     <Route path="/safetytips" element={<SafetyTips />} />
+                    <Route path="/emergency" element={<Emergency />} />
+                    <Route path="/Faq" element={<Faq />} />
+                    <Route path="/Gallery" element={<Gallery />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/Resources" element={<Resources />} />
                     <Route path="/disaster" element={<DisasterPage />} />
 
                 </Routes>

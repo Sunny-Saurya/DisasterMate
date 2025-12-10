@@ -31,9 +31,14 @@ const Navbar = ({ navigate, isLoggedIn, onLogout }) => {
                             <>
                                 <button onClick={() => navigate('home')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Features</button>
                                 <button className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>About</button>
-                                <button className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Resources</button>
+                                
                                 <button className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Modules</button>
                                 <button className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Safety Tips</button>
+                                <button className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Emergency</button>
+                                <button className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Gallery</button>
+                                <button className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>FAQ</button>
+                                <button className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Contact Us</button>
+                                <button className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Resources</button>
                                 <div className="flex items-center gap-4">
                                     <button onClick={() => navigate('login')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Log In</button>
                                     <Button onClick={() => navigate('signup')} variant="primary" className="shadow-lg shadow-blue-600/20">Sign Up</Button>
@@ -63,6 +68,11 @@ const Navbar = ({ navigate, isLoggedIn, onLogout }) => {
                     <Button fullWidth variant="outline" onClick={() => navigate('about')}>About</Button>
                     <Button fullWidth variant="outline" onClick={() => navigate('modules')}>Modules</Button>
                     <Button fullWidth variant="outline" onClick={() => navigate('safetytips')}>Safety Tips</Button>
+                    <Button fullWidth variant="outline" onClick={() => navigate('emergency')}>Emergency</Button>
+                    <Button fullWidth variant="outline" onClick={() => navigate('contact')}>Contact Us</Button>
+                    <Button fullWidth variant="outline" onClick={() => navigate('gallery')}>Gallery</Button>
+                    <Button fullWidth variant="outline" onClick={() => navigate('faq')}>FAQ</Button>
+                     <Button fullWidth variant="outline" onClick={() => navigate('resources')}>Resources</Button>
                     {!isLoggedIn ? (
                         <>
                             <Button fullWidth variant="outline" onClick={() => navigate('login')}>Log In</Button>
