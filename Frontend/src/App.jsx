@@ -63,7 +63,7 @@ const AppContent = () => {
                         path="/dashboard" 
                         element={
                             isLoggedIn ? (
-                                <Dashboard user={USER_NAME} />
+                                <Dashboard user={JSON.parse(localStorage.getItem('user') || '{}').name || USER_NAME} />
                             ) : (
                                 <Navigate to="/login" replace />
                             )
