@@ -53,7 +53,6 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
                                 <button onClick={() => navigate('/')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Features</button>
                                 <button onClick={() => navigate('/about')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>About</button>
                                 <button onClick={() => navigate('/modules')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Modules</button>
-                                <button onClick={() => navigate('/safetytips')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Safety tips</button>
                                 <button className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Resources</button>
                                 <Button onClick={() => navigate('/login')} variant="primary" className="shadow-lg shadow-blue-600/20">Sign In</Button>
                             </>
