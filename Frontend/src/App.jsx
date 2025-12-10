@@ -9,6 +9,7 @@ import SafetySessions from './pages/SafetySessions';
 import About from './pages/About';
 import Modules from './pages/Modules';
 import SafetyTips from './pages/SafetyTips';
+import DisasterPage from './pages/DisasterPage';
 import { USER_NAME } from './data/mockData';
 import Contact from "./pages/Contact";
 import Emergency from './pages/Emergency';
@@ -77,6 +78,8 @@ const AppContent = () => {
                     <Route path="/Gallery" element={<Gallery />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/Resources" element={<Resources />} />
+                    <Route path="/disaster" element={<DisasterPage />} />
+
                 </Routes>
             </main>
         </div>
