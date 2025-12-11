@@ -21,7 +21,7 @@ export default function Emergency() {
   const [autoCall, setAutoCall] = useState(false);
   const [useSMSfallback, setUseSMSfallback] = useState(true);
 
-//  fetch current time
+  // Fetch current time
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date().toLocaleTimeString());
@@ -154,8 +154,8 @@ export default function Emergency() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-50 p-6">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-50 pt-20 px-6">
+      <div className="max-w-6xl mx-auto mt-10">
 
         {/* Top Alert */}
         <div className="bg-red-600 text-white text-center py-3 rounded-lg shadow-lg animate-pulse font-medium flex justify-center items-center gap-2">
@@ -175,7 +175,6 @@ export default function Emergency() {
           </p>
         </header>
 
-        
         <div className="mt-6 flex justify-center">
           <Link
             to="/safetytips"
@@ -186,13 +185,10 @@ export default function Emergency() {
           </Link>
         </div>
 
-        
         <section className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            { title: "Emergency", number: "112", color: "red" },
+          {[{ title: "Emergency", number: "112", color: "red" },
             { title: "Medical", number: "108", color: "blue" },
-            { title: "Fire", number: "101", color: "orange" }
-          ].map((item, index) => (
+            { title: "Fire", number: "101", color: "orange" }].map((item, index) => (
             <div
               key={index}
               className="bg-white border rounded-2xl p-6 text-center shadow hover:shadow-2xl transition transform hover:-translate-y-1"
@@ -251,11 +247,9 @@ export default function Emergency() {
         </h2>
 
         <section className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            { title: "Fire", color: "red", tips: ["Stay low", "Check doors", "Avoid elevators"] },
+          {[{ title: "Fire", color: "red", tips: ["Stay low", "Check doors", "Avoid elevators"] },
             { title: "Flood", color: "blue", tips: ["Move up", "Avoid water", "Turn off electricity"] },
-            { title: "Earthquake", color: "yellow", tips: ["Drop & cover", "Avoid windows", "Do not run outside"] }
-          ].map((item, index) => (
+            { title: "Earthquake", color: "yellow", tips: ["Drop & cover", "Avoid windows", "Do not run outside"] }].map((item, index) => (
             <div
               key={index}
               className="bg-white p-6 rounded-2xl shadow hover:shadow-2xl transition transform hover:-translate-y-1"
@@ -304,8 +298,8 @@ export default function Emergency() {
         <p className="text-center text-gray-600 mt-16 mb-10">
           Stay safe. DisasterMate is your emergency companion.
         </p>
- 
-         {showSOSModal && (
+
+        {showSOSModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start md:items-center overflow-auto z-50 p-4">
             <div className="bg-white p-6 rounded-2xl w-full max-w-xl shadow-2xl animate-slideUp">
               <h2 className="text-2xl font-bold text-red-600">
@@ -315,7 +309,7 @@ export default function Emergency() {
                 This will send an SOS message with your live location.
               </p>
 
-              {/* Contacts*/}
+              {/* Contacts */}
               <div className="mt-4">
                 <label className="block text-sm font-semibold mb-2">
                   Emergency Contacts
