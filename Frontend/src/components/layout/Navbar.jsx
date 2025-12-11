@@ -70,7 +70,7 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
                                         onClick={() => setIsProfileOpen(!isProfileOpen)}
                                         className="flex items-center space-x-2 p-2 rounded-xl hover:bg-slate-100 transition-colors"
                                     >
-                                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-500 to-blue-600 flex items-center justify-center text-white font-semibold shadow-lg">
+                                        <div className="w-10 h-10 rounded-full bg-linear-to-br from-gray-500 to-blue-600 flex items-center justify-center text-white font-semibold shadow-lg">
                                             {userData?.name?.charAt(0)?.toUpperCase() || 'U'}
                                         </div>
                                     </button>
@@ -80,7 +80,7 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
                                             {/* Profile Header */}
                                             <div className="px-4 py-3 border-b border-slate-100">
                                                 <div className="flex items-center space-x-3">
-                                                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                                                    <div className="w-14 h-14 rounded-full bg-linear-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xl shadow-lg">
                                                         {userData?.name?.charAt(0)?.toUpperCase() || 'U'}
                                                     </div>
                                                     <div className="flex-1">
@@ -178,7 +178,7 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
                     {isLoggedIn && userData && (
                         <div className="bg-slate-50 rounded-xl p-4 mb-4">
                             <div className="flex items-center space-x-3 mb-3">
-                                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold shadow-lg">
+                                <div className="w-12 h-12 rounded-full bg-linear-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold shadow-lg">
                                     {userData?.name?.charAt(0)?.toUpperCase() || 'U'}
                                 </div>
                                 <div>

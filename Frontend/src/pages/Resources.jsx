@@ -1,428 +1,432 @@
 import React, { useState } from "react";
+import jsPDF from "jspdf";
 import {
   FileText,
   Video,
   LinkIcon,
-  Copy,
-  X,
-  ClipboardCheck,
-  Satellite,
-  MapPin,
+  ClipboardList,
   Heart,
   Share2,
+  CheckCircle2,
+  BookOpen,
+  Lightbulb,
+  Wand2,
+  Download,
+  ExternalLink,
 } from "lucide-react";
-import jsPDF from "jspdf";
 
-const Resources = () => {
+export default function Resources() {
   const [activeTab, setActiveTab] = useState("guides");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [previewVideo, setPreviewVideo] = useState(null);
-  const [copied, setCopied] = useState(null);
-  const [favorites, setFavorites] = useState(
-    JSON.parse(localStorage.getItem("favorites") || "[]")
-  );
+  const [favorites, setFavorites] = useState([]);
 
+  const toggleFavorite = (item) => {
+    setFavorites((prev) =>
+      prev.includes(item) ? prev.filter((f) => f !== item) : [...prev, item]
+    );
+  };
+
+  /* ------------------------- PDF GENERATOR ------------------------- */
+  const downloadPDF = (title, content) => {
+    const pdf = new jsPDF();
+    pdf.setFont("Times", "normal");
+    pdf.setFontSize(18);
+    pdf.text(title, 10, 20);
+
+    pdf.setFontSize(12);
+    let yPos = 35;
+    content.split("\n").forEach((line) => {
+      pdf.text(line, 10, yPos);
+      yPos += 8;
+    });
+
+    pdf.save(`${title}.pdf`);
+  };
+
+  /* ----------------------------- DATA ----------------------------- */
   const guides = [
     {
-      title: "Earthquake Safety Guide",
-      desc: `# Drop, Cover, and Hold On
-# Prepare an emergency kit
-# Identify safe spots
-# Practice evacuation drills
-# Stay informed via alerts`,
+      title: "Flood Safety Guide",
+      desc: "Steps to stay safe during flooding: evacuation, supplies, and what to avoid.",
+      pdf: "Flood Safety Guide\n\n1. Move to higher ground.\n2. Avoid floodwaters.\n3. Unplug electrical devices.\n4. Keep a waterproof emergency kit.\n5. Listen to authorities.",
     },
     {
-      title: "Flood Preparedness Manual",
-      desc: `# Know flood-prone areas
-# Keep documents waterproof
-# Don’t walk in floodwater
-# Follow evacuation orders
-# Keep essential supplies`,
+      title: "Earthquake Preparedness",
+      desc: "Home safety, structural checks, emergency kit guidance, and drill planning.",
+      pdf: "Earthquake Preparedness\n\n1. Secure heavy furniture.\n2. Practice Drop-Cover-Hold.\n3. Store emergency water.\n4. Keep flashlight near bed.\n5. Identify safe spots.",
     },
     {
-      title: "Cyclone Emergency Handbook",
-      desc: `# Stay indoors
-# Reinforce windows
-# Stock emergency items
-# Avoid electrical appliances
-# Listen to advisories`,
+      title: "Cyclone Survival Tips",
+      desc: "Prepare your home, stay informed, secure belongings, and follow alerts.",
+      pdf: "Cyclone Survival Tips\n\n1. Track cyclone path.\n2. Charge devices.\n3. Move livestock to safety.\n4. Avoid coastal regions.\n5. Reinforce windows.",
     },
     {
-      title: "Fire Safety & Evacuation",
-      desc: `# Know your exits
-# Install smoke alarms
-# Never use lifts during fire
-# Crawl under smoke
-# Keep extinguishers ready`,
+      title: "Fire Emergency Steps",
+      desc: "Escape planning, extinguisher use, and smoke safety for emergencies.",
+      pdf: "Fire Emergency Steps\n\n1. Crawl under smoke.\n2. Stop, Drop & Roll.\n3. Know exit routes.\n4. Keep fire extinguisher.\n5. Do not re-enter.",
     },
     {
-      title: "Landslide Survival Guide",
-      desc: `# Stay away from loose slopes
-# Listen to weather warnings
-# Avoid river valleys
-# Evacuate early
-# Keep emergency kit ready`,
+      title: "Landslide Safety Guide",
+      desc: "Safety during landslides — warning signs, escape routes, and do’s/don’ts.",
+      pdf: "Landslide Safety Guide\n\n1. Stay alert in hilly areas.\n2. Avoid river banks.\n3. Move to open space.\n4. Do not cross debris.\n5. Report cracks immediately.",
+    },
+    {
+      title: "Heatwave Survival Guide",
+      desc: "Hydration, heatstroke prevention, and safe home cooling tips.",
+      pdf: "Heatwave Survival Guide\n\n1. Drink water every hour.\n2. Avoid outdoor activity.\n3. Wear light clothing.\n4. Use wet cloth cooling.\n5. Watch heatstroke signs.",
+    },
+    {
+      title: "Thunderstorm & Lightning Safety",
+      desc: "Avoid metal, avoid trees, how to shelter during storms.",
+      pdf: "Lightning Safety\n\n1. Stay indoors.\n2. Avoid water.\n3. Avoid tall structures.\n4. Stay away from windows.\n5. Unplug electronics.",
+    },
+    {
+      title: "Pandemic Preparedness Guide",
+      desc: "Hygiene guidelines, mask usage, quarantine planning, and emergency supplies.",
+      pdf: "Pandemic Preparedness\n\n1. Wash hands frequently.\n2. Keep masks & sanitizer.\n3. Maintain distance.\n4. Store essential medicines.\n5. Follow government updates.",
     },
   ];
 
-  
   const videos = [
     {
-      title: "How to Prepare an Emergency Kit",
-      link: "https://www.youtube.com/embed/KKN7Ewht1DQ",
+      title: "Disaster Awareness Training",
+      desc: "Understanding types of disasters and basic preparedness.",
+      url: "https://www.youtube.com/watch?v=j7eV9f8RvZs&t=27s",
     },
     {
-      title: "Evacuation Planning for Families",
-      link: "https://www.youtube.com/embed/dMO4oejW8C8",
+      title: "Flood Rescue Techniques",
+      desc: "Emergency water rescue procedures used by professionals.",
+      url: "https://www.youtube.com/watch?v=pi_nUPcQz_A",
     },
     {
-      title: "First Aid Basics Everyone Should Know",
-      link: "https://www.youtube.com/embed/DHbI3dw4H_I",
+      title: "Earthquake Safety Steps",
+      desc: "Demonstration of Drop-Cover-Hold in real situations.",
+      url: "https://www.youtube.com/watch?v=BLEPakj1YTY",
     },
     {
-      title: "Fire Safety Training",
-      link: "https://www.youtube.com/watch?v=TA7N0Irkb5M",
+      title: "Cyclone Tracking & Alerts",
+      desc: "How meteorologists track cyclones and send alerts.",
+      url: "https://www.youtube.com/shorts/lwglySYUuSY",
+    },
+    {
+      title: "First Aid Training Basics",
+      desc: "Bandaging, CPR, bleeding control, emergency care.",
+      url: "https://www.youtube.com/watch?v=5OKFljZ2GQE",
+    },
+    {
+      title: "Fire Safety Demonstration",
+      desc: "Using extinguishers & indoor fire escape strategies.",
+      url: "https://www.youtube.com/shorts/L_WRmhPU1KM",
+    },
+    {
+      title: "Landslide Warning Signs",
+      desc: "Visual signs of unstable terrain & evacuations.",
+      url: "https://www.youtube.com/watch?v=f6iApjqk0F0",
+    },
+    {
+      title: "Heatwave Survival Documentary",
+      desc: "Real experiences & survival tips for extreme heat.",
+      url: "https://www.youtube.com/watch?v=mEpSfYMGUyQ",
     },
   ];
 
-
-  const externalLinks = [
-    { name: "NDMA India", link: "https://ndma.gov.in/" },
-    { name: "World Health Organization (WHO)", link: "https://www.who.int/emergencies" },
-    { name: "UN Disaster Risk Reduction", link: "https://www.undrr.org/" },
-    { name: "Red Cross Disaster Preparedness", link: "https://www.redcross.org/" },
+  const links = [
+    {
+      title: "National Disaster Portal",
+      desc: "Government portal for alerts, warnings, and guidelines.",
+      url: "https://ndma.gov.in",
+    },
+    {
+      title: "Weather Forecast (IMD)",
+      desc: "Real-time weather conditions & extreme weather alerts.",
+      url: "https://mausam.imd.gov.in",
+    },
+    {
+      title: "Emergency Contact Directory",
+      desc: "List of verified emergency numbers nationwide.",
+      url: "https://ndma.gov.in/emergency-contacts",
+    },
+    {
+      title: "WHO Safety & Health",
+      desc: "Global health advisories and protocols.",
+      url: "https://www.who.int",
+    },
+    {
+      title: "UNDRR Disaster Resources",
+      desc: "Global disaster reduction strategies & tools.",
+      url: "https://www.undrr.org",
+    },
+    {
+      title: "Red Cross Safety Tips",
+      desc: "International emergency response guidelines.",
+      url: "https://www.redcross.org",
+    },
+    {
+      title: "FEMA Disaster Education",
+      desc: "US-based resource for disaster preparedness.",
+      url: "https://www.fema.gov",
+    },
+    {
+      title: "Real-Time River Flood Alerts",
+      desc: "Water level monitoring & flood alerts.",
+      url: "https://floodlist.com",
+    },
   ];
-
 
   const checklists = [
     {
-      title: "Home Emergency Kit Checklist",
+      title: "Emergency Kit Essentials",
       items: [
-        "Water (3 litres per person)",
-        "First Aid Kit",
-        "Flashlight + Batteries",
-        "Radio",
-        "Food Supplies (3 days)",
-        "Power Bank",
-        "Whistle",
-        "Important Documents",
+        "Water (3-day supply)",
+        "Flashlight & batteries",
+        "First aid kit",
+        "Portable charger",
+        "Emergency whistle",
+        "Non-perishable food",
       ],
     },
     {
-      title: "Evacuation Checklist",
+      title: "Home Safety Checklist",
       items: [
-        "Carry ID and documents",
-        "Pack clothing",
-        "Take emergency medicine",
-        "Charge phone",
-        "Unplug appliances",
-        "Secure pets",
+        "Smoke detectors installed",
+        "Emergency exits clear",
+        "Fire extinguisher available",
+        "Backup power ready",
+        "Emergency contact list",
+      ],
+    },
+    {
+      title: "First Aid Checklist",
+      items: [
+        "Bandages",
+        "Antiseptic wipes",
+        "Pain relievers",
+        "Thermometer",
+        "Burn cream",
+        "Emergency phone numbers",
       ],
     },
   ];
 
- 
   const tools = [
     {
-      name: "Live Weather Radar",
-      desc: "Check live weather patterns in real-time.",
-      link: "https://www.windy.com/",
-      icon: Satellite,
+      title: "Risk Analyzer",
+      desc: "Analyze your area's risk using weather & historical data.",
+      icon: Lightbulb,
     },
     {
-      name: "Find My Location",
-      desc: "Get your current latitude & longitude instantly.",
-      link: "https://www.google.com/maps",
-      icon: MapPin,
+      title: "Evacuation Planner",
+      desc: "Plan routes, shelters, and emergency transport.",
+      icon: Wand2,
     },
     {
-      name: "Government SMS Alert Registration",
-      desc: "Register for free emergency alerts.",
-      link: "https://ndma.gov.in/",
-      icon: ClipboardCheck,
+      title: "Alert Notifier",
+      desc: "Set alerts for weather, floods, or earthquakes in your area.",
+      icon: Lightbulb,
+    },
+    {
+      title: "Resource Locator",
+      desc: "Find nearby emergency resources like hospitals & shelters.",
+      icon: Wand2,
     },
   ];
 
-
-  const searchFilter = (list) =>
-    list.filter((item) => {
-      const t = item.title || item.name;
-      return t.toLowerCase().includes(searchTerm.toLowerCase());
-    });
-
- 
-  const shareText = async (title, content) => {
-    const text = `${title}\n\n${content}`;
-
-    if (navigator.share) {
-      await navigator.share({ title, text });
-    } else {
-      await navigator.clipboard.writeText(text);
-      alert("Guide copied to clipboard!");
-    }
-  };
-
- 
-  const toggleFavorite = (title) => {
-    let updated = [];
-    if (favorites.includes(title)) {
-      updated = favorites.filter((f) => f !== title);
-    } else {
-      updated = [...favorites, title];
-    }
-    setFavorites(updated);
-    localStorage.setItem("favorites", JSON.stringify(updated));
-  };
-
-  
-  const generatePDF = (title, content) => {
-    const doc = new jsPDF();
-    doc.setFontSize(18);
-    doc.text(title, 10, 15);
-
-    doc.setFontSize(12);
-    const lines = doc.splitTextToSize(content, 180);
-    doc.text(lines, 10, 30);
-
-    doc.save(`${title}.pdf`);
-  };
-
-
-  const Card = ({ children }) => (
-    <div className="bg-white/70 backdrop-blur-lg dark:bg-gray-800/70 shadow-xl border border-gray-200 dark:border-gray-700 rounded-2xl p-6 transition hover:scale-[1.02] hover:shadow-2xl">
-      {children}
-    </div>
-  );
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-900 dark:to-black py-16 px-6">
-
-      <div className="max-w-7xl mx-auto">
-
-        {/* ---------------- TITLE ---------------- */}
-        <h1 className="text-5xl font-extrabold text-center text-blue-700 dark:text-blue-400 drop-shadow-lg">
-          Disaster Preparedness Resources
-        </h1>
-        <p className="text-center mt-3 text-gray-700 dark:text-gray-300 text-lg">
-          A modern hub with guides, tools, videos, and emergency checklists.
-        </p>
-
-        {/* ---------------- SEARCH ---------------- */}
-        <div className="mt-10 flex justify-center">
-          <input
-            type="text"
-            placeholder="Search anything..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="px-4 py-3 rounded-lg w-full md:w-1/2 shadow-md dark:bg-gray-800 dark:border-gray-700 border
-            text-lg dark:text-white"
-          />
-        </div>
-
-        <div className="flex justify-center gap-3 flex-wrap mt-10">
+    <div className="min-h-screen bg-gray-100 flex font-serif mt-20 pt-6">
+      {/* Sidebar */}
+      <aside className="w-64 bg-white border-r shadow-md p-6 hidden md:block">
+        <h2 className="text-2xl font-bold mb-8">Resources</h2>
+        <nav className="space-y-4">
           {[
-            ["guides", FileText],
-            ["videos", Video],
-            ["links", LinkIcon],
-            ["checklists", ClipboardCheck],
-            ["tools", Satellite],
-          ].map(([tab, Icon]) => (
+            ["guides", BookOpen, "Guides"],
+            ["videos", Video, "Videos"],
+            ["checklists", ClipboardList, "Checklists"],
+            ["links", LinkIcon, "Useful Links"],
+            ["tools", Wand2, "Tools"],
+            ["favorites", Heart, "Favorites"],
+          ].map(([key, Icon, label]) => (
             <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-5 py-3 rounded-xl flex items-center gap-2 text-lg font-semibold transition 
-              ${
-                activeTab === tab
-                  ? "bg-blue-600 text-white shadow-lg scale-105"
-                  : "bg-gray-300 text-black dark:bg-gray-700 dark:text-white"
+              key={key}
+              onClick={() => setActiveTab(key)}
+              className={`w-full flex items-center gap-2 p-3 rounded-xl text-left ${
+                activeTab === key ? "bg-blue-600 text-white" : "hover:bg-gray-200"
               }`}
             >
-              <Icon className="w-6 h-6" /> {tab.toUpperCase()}
+              <Icon size={20} /> {label}
             </button>
           ))}
+        </nav>
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 p-6 md:p-10">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-4xl font-bold">
+            {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
+          </h1>
+          <Share2 className="cursor-pointer hover:text-blue-500" size={26} />
         </div>
 
-        
-        {activeTab === "guides" && (
-          <div className="grid md:grid-cols-3 gap-8 mt-10">
-            {searchFilter(guides).map((g, i) => (
-              <Card key={i}>
-                <div className="flex justify-between items-start">
-                  <FileText className="w-10 h-10 text-blue-600" />
-                  <Heart
-                    onClick={() => toggleFavorite(g.title)}
-                    className={`w-7 h-7 cursor-pointer transition ${
-                      favorites.includes(g.title)
-                        ? "text-red-500 fill-red-500"
-                        : "text-gray-400"
-                    }`}
-                  />
-                </div>
-
-                <h3 className="text-2xl font-bold dark:text-white mt-3">
-                  {g.title}
-                </h3>
-
-                <p className="mt-4 dark:text-gray-300 whitespace-pre-line text-lg">
-                  {g.desc}
-                </p>
-
-                <div className="flex gap-4 mt-5">
+        <div>
+          {/* Guides */}
+          {activeTab === "guides" && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {guides.map((guide) => (
+                <div
+                  key={guide.title}
+                  className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <FileText />
+                      <h3 className="text-xl font-semibold">{guide.title}</h3>
+                    </div>
+                    <Heart
+                      onClick={() => toggleFavorite(guide.title)}
+                      className={`cursor-pointer ${
+                        favorites.includes(guide.title) ? "text-red-500" : "text-gray-400"
+                      }`}
+                    />
+                  </div>
+                  <p className="text-gray-600 mb-3">{guide.desc}</p>
                   <button
-                    onClick={() => generatePDF(g.title, g.desc)}
-                    className="text-blue-700 dark:text-blue-300 font-semibold"
+                    onClick={() => downloadPDF(guide.title, guide.pdf)}
+                    className="flex items-center gap-2 mt-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
                   >
-                    Download PDF
+                    <Download size={18} /> Download PDF
                   </button>
-
-                  <Share2
-                    className="w-6 h-6 text-gray-500 cursor-pointer hover:text-blue-600"
-                    onClick={() => shareText(g.title, g.desc)}
-                  />
-
-                  <Copy
-                    className="w-6 h-6 text-gray-500 cursor-pointer hover:text-blue-600"
-                    onClick={() => {
-                      navigator.clipboard.writeText(g.desc);
-                      setCopied(i);
-                      setTimeout(() => setCopied(null), 1000);
-                    }}
-                  />
-
-                  {copied === i && (
-                    <span className="text-green-600 text-sm font-semibold">
-                      Copied!
-                    </span>
-                  )}
                 </div>
-              </Card>
-            ))}
-          </div>
-        )}
+              ))}
+            </div>
+          )}
 
-       
-        {activeTab === "videos" && (
-          <div className="grid md:grid-cols-3 gap-8 mt-10">
-            {searchFilter(videos).map((v, i) => (
-              <Card key={i}>
-                <Video className="w-10 h-10 text-blue-600" />
-                <h3 className="text-xl font-bold dark:text-white mt-3">
-                  {v.title}
-                </h3>
-
-                <button
-                  className="text-blue-600 mt-3 text-lg"
-                  onClick={() => setPreviewVideo(v.link)}
+          {/* Videos */}
+          {activeTab === "videos" && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {videos.map((video) => (
+                <div
+                  key={video.title}
+                  className="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden"
                 >
-                  ▶ Watch Video
-                </button>
-              </Card>
-            ))}
-          </div>
-        )}
+                  <div className="relative pt-[56.25%]">
+                    <iframe
+                      className="absolute top-0 left-0 w-full h-full rounded-t-2xl"
+                      src={video.url}
+                      title={video.title}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                  <div className="p-4">
+                    <div className="flex justify-between items-center">
+                      <h3 className="text-lg font-semibold">{video.title}</h3>
+                      <Heart
+                        onClick={() => toggleFavorite(video.title)}
+                        className={`cursor-pointer ${
+                          favorites.includes(video.title) ? "text-red-500" : "text-gray-400"
+                        }`}
+                      />
+                    </div>
+                    <p className="text-gray-600 mt-2">{video.desc}</p>
+                    <a
+                      href={video.url.replace("/embed/", "/watch?v=")}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-blue-600 flex items-center gap-1 mt-3"
+                    >
+                      Watch on YouTube <ExternalLink size={16} />
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
 
-        
-        {activeTab === "links" && (
-          <div className="grid md:grid-cols-3 gap-8 mt-10">
-            {searchFilter(externalLinks).map((e, i) => (
-              <Card key={i}>
-                <LinkIcon className="w-10 h-10 text-blue-600" />
-                <h3 className="text-xl font-bold dark:text-white mt-3">
-                  {e.name}
-                </h3>
+          {/* Checklists */}
+          {activeTab === "checklists" && (
+            <div className="space-y-6">
+              {checklists.map((list) => (
+                <div key={list.title} className="bg-white p-6 rounded-2xl shadow">
+                  <div className="flex justify-between items-center mb-3">
+                    <h3 className="text-xl font-semibold">{list.title}</h3>
+                    <CheckCircle2 className="text-green-500" />
+                  </div>
+                  <ul className="list-disc ml-6 text-gray-700 mb-3">
+                    {list.items.map((i) => (
+                      <li key={i}>{i}</li>
+                    ))}
+                  </ul>
+                  <button
+                    onClick={() => downloadPDF(list.title, list.items.join("\n"))}
+                    className="flex items-center gap-2 mt-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                  >
+                    <Download size={18} /> Download Checklist PDF
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Links */}
+          {activeTab === "links" && (
+            <div className="space-y-6">
+              {links.map((link) => (
                 <a
-                  href={e.link}
+                  key={link.title}
+                  href={link.url}
                   target="_blank"
-                  className="text-blue-600 mt-2 inline-block text-lg"
+                  rel="noreferrer"
+                  className="block bg-white p-6 rounded-2xl shadow hover:shadow-lg transition"
                 >
-                  Visit Website →
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <h3 className="text-lg font-semibold">{link.title}</h3>
+                      <p className="text-gray-600">{link.desc}</p>
+                    </div>
+                    <ExternalLink size={22} />
+                  </div>
                 </a>
-              </Card>
-            ))}
-          </div>
-        )}
+              ))}
+            </div>
+          )}
 
-       
-        {activeTab === "checklists" && (
-          <div className="grid md:grid-cols-2 gap-8 mt-10">
-            {checklists.map((c, i) => (
-              <Card key={i}>
-                <ClipboardCheck className="w-10 h-10 text-blue-600" />
+          {/* Tools */}
+          {activeTab === "tools" && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {tools.map((tool) => (
+                <div key={tool.title} className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
+                  <div className="flex items-center gap-3 mb-2">
+                    <tool.icon size={22} />
+                    <h3 className="text-xl font-semibold">{tool.title}</h3>
+                  </div>
+                  <p className="text-gray-600">{tool.desc}</p>
+                </div>
+              ))}
+            </div>
+          )}
 
-                <h3 className="text-2xl font-bold dark:text-white mt-3">
-                  {c.title}
-                </h3>
-
-                <ul className="mt-4 dark:text-gray-300 text-lg">
-                  {c.items.map((item, idx) => (
-                    <li key={idx} className="flex items-center gap-3 my-2">
-                      ✔ {item}
+          {/* Favorites */}
+          {activeTab === "favorites" && (
+            <div>
+              {favorites.length === 0 ? (
+                <p className="text-gray-500">No favorites added yet.</p>
+              ) : (
+                <ul className="space-y-4">
+                  {favorites.map((fav) => (
+                    <li
+                      key={fav}
+                      className="p-4 bg-white rounded-2xl shadow flex justify-between items-center"
+                    >
+                      <span className="text-lg">{fav}</span>
+                      <Heart className="text-red-500" />
                     </li>
                   ))}
                 </ul>
-              </Card>
-            ))}
-          </div>
-        )}
-
-        
-        {activeTab === "tools" && (
-          <div className="grid md:grid-cols-3 gap-8 mt-10">
-            {tools.map((t, i) => {
-              const Icon = t.icon;
-              return (
-                <Card key={i}>
-                  <Icon className="w-10 h-10 text-blue-600" />
-                  <h3 className="text-xl font-bold dark:text-white mt-3">
-                    {t.name}
-                  </h3>
-                  <p className="text-gray-700 dark:text-gray-300 mt-2 text-lg">
-                    {t.desc}
-                  </p>
-
-                  <a
-                    href={t.link}
-                    target="_blank"
-                    className="text-blue-600 mt-3 inline-block text-lg"
-                  >
-                    Open Tool →
-                  </a>
-                </Card>
-              );
-            })}
-          </div>
-        )}
-
-       
-        {previewVideo && (
-          <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-gray-800 w-11/12 md:w-3/4 h-[80vh] rounded-2xl overflow-hidden relative shadow-2xl">
-              <button
-                className="absolute top-3 right-3 bg-white dark:bg-gray-700 p-2 rounded-full shadow"
-                onClick={() => setPreviewVideo(null)}
-              >
-                <X className="w-6 h-6 text-gray-700 dark:text-white" />
-              </button>
-
-              <iframe
-                src={previewVideo}
-                className="w-full h-full"
-                allowFullScreen
-              ></iframe>
+              )}
             </div>
-          </div>
-        )}
-
-        
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-xl hover:bg-blue-700 text-2xl"
-        >
-          ↑
-        </button>
-      </div>
+          )}
+        </div>
+      </main>
     </div>
   );
-};
-
-export default Resources;
+}
