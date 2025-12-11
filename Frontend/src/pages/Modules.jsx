@@ -156,7 +156,6 @@ const handleInput = (e) => {
   return (
     <div className="min-h-screen bg-gray-50 text-slate-800 pt-28 px-6">
 
-      {/* ------------------ HERO SECTION ------------------ */}
       <div className="max-w-6xl mx-auto text-center mb-16">
         <h1 className="text-5xl font-bold text-slate-900">Training Modules</h1>
         <p className="text-slate-600 mt-4 text-lg">
@@ -164,7 +163,7 @@ const handleInput = (e) => {
         </p>
       </div>
 
-      {/* ------------------ DISASTER QUICK ACCESS ------------------ */}
+      
       <div 
         onClick={() => navigate("/disaster")}
         className="max-w-4xl mx-auto mt-10 mb-16 cursor-pointer group"
@@ -186,7 +185,6 @@ const handleInput = (e) => {
         </div>
       </div>
 
-      {/* ------------------ FEATURED MODULE ------------------ */}
       <section className="max-w-5xl mx-auto mb-20">
         <div className="bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-3xl p-10 shadow-2xl">
           <h2 className="text-2xl md:text-3xl font-bold">🔥 Featured Module: Earthquake Emergency Protocol</h2>
@@ -202,25 +200,7 @@ const handleInput = (e) => {
         </div>
       </section>
 
-      {/* ------------------ LEARNING PATHS ------------------ */}
-      <section className="max-w-6xl mx-auto mb-20">
-        <h2 className="text-2xl font-bold text-slate-900 mb-6">Learning Paths</h2>
-        <div className="grid md:grid-cols-3 gap-8">
-          {[
-            { title: "Beginner Path", desc: "Basics of safety, first aid & fire prevention.", icon: <Flag className="w-6 h-6 text-blue-600" /> },
-            { title: "Advanced Path", desc: "Evacuation leadership & emergency response.", icon: <Star className="w-6 h-6 text-blue-600" /> },
-            { title: "Professional Path", desc: "For campus coordinators & trained responders.", icon: <CheckCircle className="w-6 h-6 text-blue-600" /> },
-          ].map((item, idx) => (
-            <div key={idx} className="border border-slate-200 rounded-2xl p-8 shadow hover:shadow-lg hover:-translate-y-1 transition cursor-pointer bg-white">
-              <div className="mb-4">{item.icon}</div>
-              <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-              <p className="text-slate-600">{item.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
 
-      {/* ------------------ AVAILABLE MODULES ------------------ */}
       <section className="max-w-6xl mx-auto mb-20">
         <h2 className="text-2xl font-bold text-slate-900 mb-6">Available Modules</h2>
         <div className="grid md:grid-cols-3 gap-8">
@@ -250,7 +230,7 @@ const handleInput = (e) => {
         </div>
       </section>
 
-      {/* ------------------ UPCOMING DRILLS ------------------ */}
+ 
       <section className="max-w-6xl mx-auto mb-20">
         <h2 className="text-2xl font-bold text-slate-900 mb-6">Upcoming Drills</h2>
         <div className="grid md:grid-cols-2 gap-8">
@@ -274,7 +254,7 @@ const handleInput = (e) => {
         </div>
       </section>
 
-      {/* ------------------ MODULE POPUP PANEL (CENTER MODAL) ------------------ */}
+     
 {openModule && (
   <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
     <div className="bg-white w-[90vw] h-[90vh] overflow-y-auto rounded-3xl shadow-2xl p-8 relative border border-slate-200">
@@ -338,7 +318,7 @@ const handleInput = (e) => {
 )}
 
 
-{/* ------------------ REGISTRATION FORM MODAL ------------------ */}
+
 {showRegisterForm && (
   <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
     <div className="bg-white w-[90vw] max-w-xl p-8 rounded-3xl shadow-xl relative border">
