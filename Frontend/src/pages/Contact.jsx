@@ -4,18 +4,48 @@ import { Link } from "react-router-dom";
 
 export default function Contact() {
   const [location, setLocation] = useState({ lat: null, lon: null });
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [formData, setFormData] = useState({ 
+    name: "", 
+    email: "", 
+    message: "",
+    emergencyType: "Other" 
+  });
   const [status, setStatus] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus("Message sent successfully! We will reach out soon.");
-    setFormData({ name: "", email: "", message: "" });
+    setLoading(true);
+    setStatus("");
+
+    try {
+      const response = await fetch('http://localhost:5000/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setStatus("Message sent successfully! We will reach out soon.");
+        setFormData({ name: "", email: "", message: "", emergencyType: "Other" });
+      } else {
+        setStatus("Failed to send message. Please try again.");
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setStatus("An error occurred. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const getLocation = () => {
@@ -73,7 +103,12 @@ export default function Contact() {
             />
 
             <label className="font-semibold">Emergency Type</label>
-            <select className="w-full p-3 border rounded-lg mt-2 mb-4">
+            <select 
+              name="emergencyType"
+              value={formData.emergencyType}
+              onChange={handleChange}
+              className="w-full p-3 border rounded-lg mt-2 mb-4"
+            >
               <option>Flood</option>
               <option>Earthquake</option>
               <option>Fire Accident</option>
@@ -93,12 +128,17 @@ export default function Contact() {
 
             <button
               type="submit"
-              className="w-full mt-5 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+              disabled={loading}
+              className="w-full mt-5 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Submit
+              {loading ? 'Sending...' : 'Submit'}
             </button>
 
-            {status && <p className="mt-4 text-green-600 font-medium">{status}</p>}
+            {status && (
+              <p className={`mt-4 font-medium ${status.includes('success') ? 'text-green-600' : 'text-red-600'}`}>
+                {status}
+              </p>
+            )}
           </form>
 
           {/* information: */}
