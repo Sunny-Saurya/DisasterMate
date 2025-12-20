@@ -174,6 +174,14 @@ const LoginPage = ({ onLogin }) => {
                             <a href="#" className="font-semibold text-blue-600 hover:text-blue-500">Forgot password?</a>
                         </div>
 
+                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                            <p className="text-xs text-slate-600 mb-2 font-semibold">Default Credentials:</p>
+                            <div className="space-y-1">
+                                <p className="text-sm text-slate-700"><span className="font-medium">Email:</span> user1@email.com</p>
+                                <p className="text-sm text-slate-700"><span className="font-medium">Password:</span> user1234</p>
+                            </div>
+                        </div>
+
                         <Button fullWidth className="h-12 shadow-lg shadow-blue-600/20 text-lg">
                             {isLoading ? (
                                 <span className="flex items-center">

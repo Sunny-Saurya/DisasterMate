@@ -13,6 +13,7 @@ const SafetySessions = () => {
     const [showBookingModal, setShowBookingModal] = useState(false);
     const [selectedSession, setSelectedSession] = useState(null);
     const [toast, setToast] = useState(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [bookingForm, setBookingForm] = useState({
         name: '',
         location: '',
@@ -30,24 +31,74 @@ const SafetySessions = () => {
         });
     };
 
-    const handleBookingSubmit = (e) => {
+    const handleBookingSubmit = async (e) => {
         e.preventDefault();
+        setIsSubmitting(true);
         
-        setShowBookingModal(false);
-        
-        setToast({
-            message: `🎉 Your ${selectedSession.type} session has been successfully booked for ${selectedSession.date}! Check your email for confirmation.`,
-            type: 'success'
-        });
+        try {
+            // Get token from localStorage
+            const token = localStorage.getItem('token');
+            
+            if (!token) {
+                setToast({
+                    message: '⚠️ Please login to book a session',
+                    type: 'error'
+                });
+                setTimeout(() => navigate('/login'), 2000);
+                return;
+            }
 
-        setBookingForm({ name: '', location: '', sessionType: '', preferredDate: '' });
-        setSelectedSession(null);
+            // Prepare booking data
+            const bookingData = {
+                name: bookingForm.name,
+                location: bookingForm.location,
+                sessionType: bookingForm.sessionType,
+                preferredDate: bookingForm.preferredDate,
+                sessionDetails: {
+                    instructor: selectedSession.instructor,
+                    duration: selectedSession.time,
+                    price: 0, // Free session
+                    slots: selectedSession.spots
+                }
+            };
 
-        console.log('Session Booked:', {
-            session: selectedSession,
-            formData: bookingForm,
-            timestamp: new Date().toISOString()
-        });
+            // Send booking request to backend
+            const response = await fetch('http://localhost:5000/api/sessions/book', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(bookingData)
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                setShowBookingModal(false);
+                
+                setToast({
+                    message: `🎉 Your ${selectedSession.type} session has been successfully booked for ${selectedSession.date}! Check your email for confirmation.`,
+                    type: 'success'
+                });
+
+                setBookingForm({ name: '', location: '', sessionType: '', preferredDate: '' });
+                setSelectedSession(null);
+            } else {
+                setToast({
+                    message: `❌ ${data.message || 'Failed to book session'}`,
+                    type: 'error'
+                });
+            }
+        } catch (error) {
+            console.error('Booking error:', error);
+            setToast({
+                message: '❌ Network error. Please make sure backend is running and try again.',
+                type: 'error'
+            });
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -460,8 +511,23 @@ const SafetySessions = () => {
                                 >
                                     Cancel
                                 </Button>
-                                <Button type="submit" variant="primary" className="flex-1 shadow-lg shadow-indigo-500/30">
-                                    Confirm Booking
+                                <Button 
+                                    type="submit" 
+                                    variant="primary" 
+                                    className="flex-1 shadow-lg shadow-indigo-500/30"
+                                    disabled={isSubmitting}
+                                >
+                                    {isSubmitting ? (
+                                        <span className="flex items-center justify-center">
+                                            <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                            </svg>
+                                            Booking...
+                                        </span>
+                                    ) : (
+                                        'Confirm Booking'
+                                    )}
                                 </Button>
                             </div>
                         </form>
