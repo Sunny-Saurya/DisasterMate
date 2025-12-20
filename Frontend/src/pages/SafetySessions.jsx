@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
     GraduationCap, Calendar, Clock, MapPin, UserCheck, X, Shield,
-    ArrowLeft, CheckCircle, Users, Award, BookOpen, Sparkles
+    ArrowLeft, CheckCircle, Users, Award, BookOpen, Sparkles, Trash2
 } from 'lucide-react';
 import Button from '../components/ui/Button';
 import Toast from '../components/ui/Toast';
@@ -15,12 +15,92 @@ const SafetySessions = () => {
     const [selectedSession, setSelectedSession] = useState(null);
     const [toast, setToast] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [activeTab, setActiveTab] = useState('all'); // 'all' or 'mybookings'
+    const [myBookings, setMyBookings] = useState([]);
+    const [isLoadingBookings, setIsLoadingBookings] = useState(false);
     const [bookingForm, setBookingForm] = useState({
         name: '',
         location: '',
         sessionType: '',
         preferredDate: ''
     });
+
+    // Fetch user's bookings
+    const fetchMyBookings = async () => {
+        setIsLoadingBookings(true);
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setToast({
+                    message: '⚠️ Please login to view your bookings',
+                    type: 'error'
+                });
+                setTimeout(() => navigate('/login'), 2000);
+                return;
+            }
+
+            const response = await fetch(`${API_URL}/api/sessions/my-bookings`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                setMyBookings(data.data);
+            }
+        } catch (error) {
+            console.error('Error fetching bookings:', error);
+            setToast({
+                message: '❌ Failed to load bookings',
+                type: 'error'
+            });
+        } finally {
+            setIsLoadingBookings(false);
+        }
+    };
+
+    // Load bookings when switching to My Bookings tab
+    useEffect(() => {
+        if (activeTab === 'mybookings') {
+            fetchMyBookings();
+        }
+    }, [activeTab]);
+
+    // Cancel booking function
+    const handleCancelBooking = async (bookingId) => {
+        if (!confirm('Are you sure you want to cancel this booking?')) return;
+
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`${API_URL}/api/sessions/${bookingId}/cancel`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                setToast({
+                    message: '✅ Booking cancelled successfully',
+                    type: 'success'
+                });
+                fetchMyBookings(); // Refresh the bookings list
+            } else {
+                setToast({
+                    message: `❌ ${data.message}`,
+                    type: 'error'
+                });
+            }
+        } catch (error) {
+            console.error('Cancel error:', error);
+            setToast({
+                message: '❌ Failed to cancel booking',
+                type: 'error'
+            });
+        }
+    };
 
     const handleSessionSelect = (session) => {
         setSelectedSession(session);
@@ -85,6 +165,7 @@ const SafetySessions = () => {
 
                 setBookingForm({ name: '', location: '', sessionType: '', preferredDate: '' });
                 setSelectedSession(null);
+                fetchMyBookings(); // Refresh bookings after successful booking
             } else {
                 setToast({
                     message: `❌ ${data.message || 'Failed to book session'}`,
@@ -127,8 +208,18 @@ const SafetySessions = () => {
                         </div>
                         <div className="flex items-center gap-4">
                             <div className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
-                                <button className="hover:text-indigo-600 transition-colors">All Sessions</button>
-                                <button className="hover:text-indigo-600 transition-colors">My Bookings</button>
+                                <button 
+                                    onClick={() => setActiveTab('all')}
+                                    className={`transition-colors ${activeTab === 'all' ? 'text-indigo-600 font-semibold' : 'hover:text-indigo-600'}`}
+                                >
+                                    All Sessions
+                                </button>
+                                <button 
+                                    onClick={() => setActiveTab('mybookings')}
+                                    className={`transition-colors ${activeTab === 'mybookings' ? 'text-indigo-600 font-semibold' : 'hover:text-indigo-600'}`}
+                                >
+                                    My Bookings
+                                </button>
                                 <button className="hover:text-indigo-600 transition-colors">Instructors</button>
                             </div>
                             <Button variant="primary" className="shadow-lg shadow-indigo-500/30">
@@ -232,7 +323,121 @@ const SafetySessions = () => {
                     ))}
                 </div>
 
+                {/* My Bookings Section */}
+                {activeTab === 'mybookings' && (
+                    <div className="mb-16">
+                        <div className="flex items-center justify-between mb-6">
+                            <div>
+                                <h2 className="text-3xl font-bold text-slate-900">My Bookings</h2>
+                                <p className="text-slate-600 mt-1">View and manage your session bookings</p>
+                            </div>
+                        </div>
+
+                        {isLoadingBookings ? (
+                            <div className="flex items-center justify-center py-20">
+                                <div className="text-center">
+                                    <div className="w-16 h-16 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-4"></div>
+                                    <p className="text-slate-600">Loading your bookings...</p>
+                                </div>
+                            </div>
+                        ) : myBookings.length === 0 ? (
+                            <div className="bg-white rounded-3xl shadow-lg border border-slate-200 p-12 text-center">
+                                <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <Calendar className="w-10 h-10 text-slate-400" />
+                                </div>
+                                <h3 className="text-xl font-bold text-slate-900 mb-2">No bookings yet</h3>
+                                <p className="text-slate-600 mb-6">You haven't booked any sessions. Browse available sessions and book your spot!</p>
+                                <Button 
+                                    variant="primary" 
+                                    onClick={() => setActiveTab('all')}
+                                    className="shadow-lg shadow-indigo-500/30"
+                                >
+                                    Browse Sessions
+                                </Button>
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {myBookings.map((booking) => {
+                                    const statusColors = {
+                                        pending: 'bg-yellow-100 text-yellow-700 border-yellow-200',
+                                        confirmed: 'bg-green-100 text-green-700 border-green-200',
+                                        cancelled: 'bg-red-100 text-red-700 border-red-200'
+                                    };
+
+                                    const statusIcons = {
+                                        pending: '⏳',
+                                        confirmed: '✅',
+                                        cancelled: '❌'
+                                    };
+
+                                    return (
+                                        <div key={booking._id} className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden hover:shadow-xl transition-shadow">
+                                            <div className="bg-gradient-to-r from-indigo-500 to-purple-600 p-4">
+                                                <div className="flex items-center justify-between">
+                                                    <h3 className="text-lg font-bold text-white">{booking.sessionType}</h3>
+                                                    <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${statusColors[booking.status]}`}>
+                                                        {statusIcons[booking.status]} {booking.status.toUpperCase()}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div className="p-6 space-y-3">
+                                                <div className="flex items-center gap-3 text-sm text-slate-600">
+                                                    <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center shrink-0">
+                                                        <UserCheck className="w-4 h-4 text-blue-600" />
+                                                    </div>
+                                                    <span className="font-medium">{booking.name}</span>
+                                                </div>
+
+                                                <div className="flex items-center gap-3 text-sm text-slate-600">
+                                                    <div className="w-8 h-8 bg-indigo-50 rounded-lg flex items-center justify-center shrink-0">
+                                                        <Calendar className="w-4 h-4 text-indigo-600" />
+                                                    </div>
+                                                    <span>{new Date(booking.preferredDate).toLocaleDateString('en-US', { 
+                                                        weekday: 'long', 
+                                                        year: 'numeric', 
+                                                        month: 'long', 
+                                                        day: 'numeric' 
+                                                    })}</span>
+                                                </div>
+
+                                                <div className="flex items-center gap-3 text-sm text-slate-600">
+                                                    <div className="w-8 h-8 bg-purple-50 rounded-lg flex items-center justify-center shrink-0">
+                                                        <MapPin className="w-4 h-4 text-purple-600" />
+                                                    </div>
+                                                    <span>{booking.location}</span>
+                                                </div>
+
+                                                <div className="flex items-center gap-3 text-sm text-slate-600">
+                                                    <div className="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center shrink-0">
+                                                        <Clock className="w-4 h-4 text-emerald-600" />
+                                                    </div>
+                                                    <span>Booked on {new Date(booking.bookingDate).toLocaleDateString()}</span>
+                                                </div>
+
+                                                {booking.status === 'pending' && (
+                                                    <div className="pt-4 border-t border-slate-100">
+                                                        <Button 
+                                                            variant="outline" 
+                                                            className="w-full text-red-600 border-red-200 hover:bg-red-50"
+                                                            onClick={() => handleCancelBooking(booking._id)}
+                                                        >
+                                                            <Trash2 className="w-4 h-4 mr-2" />
+                                                            Cancel Booking
+                                                        </Button>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        )}
+                    </div>
+                )}
+
                 {/* Sessions Section */}
+                {activeTab === 'all' && (
                 <div className="mb-8">
                     <div className="flex items-center justify-between mb-6">
                         <div>
@@ -363,8 +568,10 @@ const SafetySessions = () => {
                         })}
                     </div>
                 </div>
+                )}
 
                 {/* Call to Action */}
+                {activeTab === 'all' && (
                 <div className="mt-16 bg-linear-to-r from-indigo-600 to-purple-600 rounded-3xl p-12 text-center text-white shadow-2xl relative overflow-hidden">
                     <div className="absolute inset-0 opacity-20" style={{
                         backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
@@ -380,6 +587,7 @@ const SafetySessions = () => {
                         </Button>
                     </div>
                 </div>
+                )}
             </div>
 
             {/* Booking Modal */}

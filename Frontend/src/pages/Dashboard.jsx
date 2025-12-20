@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
     Thermometer, Wind, AlertTriangle, ChevronRight, Activity, 
     MapPin, Bell, Shield, BookOpen, Clock, CheckCircle, Search,
     MoreVertical, Zap, Calendar, Users, GraduationCap, TrendingUp,
-    BarChart3, AlertCircle, Target, Award, Radio
+    BarChart3, AlertCircle, Target, Award, Radio, Droplets, Eye,
+    Gauge, Cloud, Sun, CloudRain, CloudSnow
 } from 'lucide-react';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
@@ -14,8 +15,86 @@ import { Spotlight } from '../components/ui/spotlight';
 
 const Dashboard = ({ user }) => {
     const navigate = useNavigate();
-    // Local state for basic interactions
     const [activeTab, setActiveTab] = useState('overview');
+    const [weatherData, setWeatherData] = useState(null);
+    const [airQuality, setAirQuality] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [userLocation, setUserLocation] = useState({ lat: 40.7128, lon: -74.0060 }); // Default: New York
+
+    // Fetch Weather Data
+    useEffect(() => {
+        const fetchWeatherData = async () => {
+            try {
+                // Get user's location
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        async (position) => {
+                            const lat = position.coords.latitude;
+                            const lon = position.coords.longitude;
+                            setUserLocation({ lat, lon });
+                            await fetchAPIs(lat, lon);
+                        },
+                        async () => {
+                            // If denied, use default location
+                            await fetchAPIs(userLocation.lat, userLocation.lon);
+                        }
+                    );
+                } else {
+                    await fetchAPIs(userLocation.lat, userLocation.lon);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setLoading(false);
+            }
+        };
+
+        fetchWeatherData();
+    }, []);
+
+    const fetchAPIs = async (lat, lon) => {
+        try {
+            // Using OpenWeatherMap API (you'll need to get a free API key from openweathermap.org)
+            // For now, using a demo key - replace with your own
+            const API_KEY = '895284fb2d2c50a520ea537456963d9c'; // Get your own at https://openweathermap.org/api
+            
+            // Fetch current weather
+            const weatherResponse = await fetch(
+                `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`
+            );
+            const weather = await weatherResponse.json();
+            
+            // Fetch air pollution
+            const airResponse = await fetch(
+                `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+            );
+            const air = await airResponse.json();
+            
+            setWeatherData(weather);
+            setAirQuality(air);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching APIs:', error);
+            setLoading(false);
+        }
+    };
+
+    const getAQILevel = (aqi) => {
+        const levels = ['Good', 'Fair', 'Moderate', 'Poor', 'Very Poor'];
+        const colors = ['text-green-600', 'text-lime-600', 'text-yellow-600', 'text-orange-600', 'text-red-600'];
+        const bgColors = ['bg-green-50', 'bg-lime-50', 'bg-yellow-50', 'bg-orange-50', 'bg-red-50'];
+        return { level: levels[aqi - 1] || 'Unknown', color: colors[aqi - 1] || 'text-gray-600', bg: bgColors[aqi - 1] || 'bg-gray-50' };
+    };
+
+    const getWeatherIcon = (main) => {
+        const icons = {
+            'Clear': Sun,
+            'Clouds': Cloud,
+            'Rain': CloudRain,
+            'Snow': CloudSnow,
+            'Drizzle': CloudRain,
+        };
+        return icons[main] || Cloud;
+    };
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/30 pt-24 pb-12 relative overflow-hidden">
@@ -52,13 +131,34 @@ const Dashboard = ({ user }) => {
                                         {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
                                     </p>
                                     <div className="flex items-center gap-4 mt-4">
+                                    {loading ? (
+                                        <div className="flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-xl border border-white/20">
+                                            <div className="animate-pulse flex items-center gap-2">
+                                                <div className="w-16 h-6 bg-white/20 rounded"></div>
+                                            </div>
+                                        </div>
+                                    ) : weatherData ? (
+                                        <div className="flex items-center gap-4">
+                                            <div className="flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-xl border border-white/20">
+                                                {React.createElement(getWeatherIcon(weatherData.weather[0].main), { className: "w-5 h-5 text-yellow-300 mr-2" })}
+                                                <span className="font-semibold text-white mr-3">{Math.round(weatherData.main.temp)}°C</span>
+                                                <span className="text-blue-200 text-sm capitalize">{weatherData.weather[0].description}</span>
+                                            </div>
+                                            <div className="flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-xl border border-white/20">
+                                                <Wind className="w-5 h-5 text-blue-300 mr-2" />
+                                                <span className="text-blue-200 text-sm">{Math.round(weatherData.wind.speed * 3.6)} km/h</span>
+                                            </div>
+                                            <div className="flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-xl border border-white/20">
+                                                <Droplets className="w-5 h-5 text-blue-300 mr-2" />
+                                                <span className="text-blue-200 text-sm">{weatherData.main.humidity}%</span>
+                                            </div>
+                                        </div>
+                                    ) : (
                                         <div className="flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-xl border border-white/20">
                                             <Thermometer className="w-5 h-5 text-blue-400 mr-2" />
-                                            <span className="font-semibold text-white mr-3">{DASHBOARD_DATA.weather.temp}</span>
-                                            <div className="w-px h-4 bg-white/30 mr-3"></div>
-                                            <Wind className="w-5 h-5 text-blue-300 mr-2" />
-                                            <span className="text-blue-200 text-sm">{DASHBOARD_DATA.weather.wind}</span>
+                                            <span className="text-blue-200 text-sm">Unable to load weather</span>
                                         </div>
+                                    )}
                                     </div>
                                 </div>
                             </div>
@@ -95,6 +195,201 @@ const Dashboard = ({ user }) => {
                              </div>
                          </div>
                      ))}
+                </div>
+
+                {/* Weather & Air Quality Widget */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    {/* Current Weather */}
+                    <div className="lg:col-span-2 bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 rounded-3xl shadow-2xl overflow-hidden relative">
+                        <div className="absolute inset-0 opacity-10" style={{
+                            backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+                            backgroundSize: '40px 40px'
+                        }}></div>
+                        <div className="absolute top-10 right-10 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+                        
+                        <div className="relative z-10 p-8">
+                            {loading ? (
+                                <div className="animate-pulse space-y-4">
+                                    <div className="h-8 bg-white/20 rounded w-1/3"></div>
+                                    <div className="h-20 bg-white/20 rounded w-1/2"></div>
+                                    <div className="grid grid-cols-3 gap-4">
+                                        <div className="h-16 bg-white/20 rounded"></div>
+                                        <div className="h-16 bg-white/20 rounded"></div>
+                                        <div className="h-16 bg-white/20 rounded"></div>
+                                    </div>
+                                </div>
+                            ) : weatherData ? (
+                                <>
+                                    <div className="flex items-start justify-between mb-6">
+                                        <div>
+                                            <div className="flex items-center gap-2 text-blue-100 mb-2">
+                                                <MapPin className="w-4 h-4" />
+                                                <span className="text-sm font-medium">{weatherData.name}, {weatherData.sys.country}</span>
+                                            </div>
+                                            <h3 className="text-white text-3xl font-bold mb-1">Current Weather</h3>
+                                            <p className="text-blue-200 capitalize">{weatherData.weather[0].description}</p>
+                                        </div>
+                                        <div className="w-20 h-20 bg-white/20 backdrop-blur-xl rounded-2xl flex items-center justify-center">
+                                            {React.createElement(getWeatherIcon(weatherData.weather[0].main), { className: "w-12 h-12 text-white" })}
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="flex items-baseline gap-2 mb-8">
+                                        <span className="text-7xl font-bold text-white">{Math.round(weatherData.main.temp)}</span>
+                                        <span className="text-4xl text-blue-200">°C</span>
+                                        <span className="ml-4 text-lg text-blue-200">Feels like {Math.round(weatherData.main.feels_like)}°C</span>
+                                    </div>
+
+                                    <div className="grid grid-cols-3 gap-4">
+                                        <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 border border-white/20">
+                                            <div className="flex items-center gap-2 text-blue-200 mb-2">
+                                                <Wind className="w-4 h-4" />
+                                                <span className="text-xs font-medium uppercase">Wind</span>
+                                            </div>
+                                            <div className="text-2xl font-bold text-white">{Math.round(weatherData.wind.speed * 3.6)}</div>
+                                            <div className="text-xs text-blue-200">km/h</div>
+                                        </div>
+                                        
+                                        <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 border border-white/20">
+                                            <div className="flex items-center gap-2 text-blue-200 mb-2">
+                                                <Droplets className="w-4 h-4" />
+                                                <span className="text-xs font-medium uppercase">Humidity</span>
+                                            </div>
+                                            <div className="text-2xl font-bold text-white">{weatherData.main.humidity}</div>
+                                            <div className="text-xs text-blue-200">%</div>
+                                        </div>
+                                        
+                                        <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 border border-white/20">
+                                            <div className="flex items-center gap-2 text-blue-200 mb-2">
+                                                <Eye className="w-4 h-4" />
+                                                <span className="text-xs font-medium uppercase">Visibility</span>
+                                            </div>
+                                            <div className="text-2xl font-bold text-white">{(weatherData.visibility / 1000).toFixed(1)}</div>
+                                            <div className="text-xs text-blue-200">km</div>
+                                        </div>
+                                        
+                                        <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 border border-white/20">
+                                            <div className="flex items-center gap-2 text-blue-200 mb-2">
+                                                <Gauge className="w-4 h-4" />
+                                                <span className="text-xs font-medium uppercase">Pressure</span>
+                                            </div>
+                                            <div className="text-2xl font-bold text-white">{weatherData.main.pressure}</div>
+                                            <div className="text-xs text-blue-200">hPa</div>
+                                        </div>
+                                        
+                                        <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 border border-white/20">
+                                            <div className="flex items-center gap-2 text-blue-200 mb-2">
+                                                <Thermometer className="w-4 h-4" />
+                                                <span className="text-xs font-medium uppercase">Min</span>
+                                            </div>
+                                            <div className="text-2xl font-bold text-white">{Math.round(weatherData.main.temp_min)}</div>
+                                            <div className="text-xs text-blue-200">°C</div>
+                                        </div>
+                                        
+                                        <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 border border-white/20">
+                                            <div className="flex items-center gap-2 text-blue-200 mb-2">
+                                                <Thermometer className="w-4 h-4" />
+                                                <span className="text-xs font-medium uppercase">Max</span>
+                                            </div>
+                                            <div className="text-2xl font-bold text-white">{Math.round(weatherData.main.temp_max)}</div>
+                                            <div className="text-xs text-blue-200">°C</div>
+                                        </div>
+                                    </div>
+                                </>
+                            ) : (
+                                <div className="text-center text-white py-12">
+                                    <Cloud className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                                    <p>Unable to load weather data</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Air Quality Index */}
+                    <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200">
+                        <div className="bg-gradient-to-r from-emerald-500 to-teal-600 p-6 text-white">
+                            <div className="flex items-center gap-3 mb-2">
+                                <div className="w-12 h-12 bg-white/20 backdrop-blur-xl rounded-xl flex items-center justify-center">
+                                    <Wind className="w-6 h-6" />
+                                </div>
+                                <h3 className="text-2xl font-bold">Air Quality</h3>
+                            </div>
+                            <p className="text-emerald-100 text-sm">Real-time monitoring</p>
+                        </div>
+
+                        <div className="p-6">
+                            {loading ? (
+                                <div className="animate-pulse space-y-4">
+                                    <div className="h-24 bg-slate-200 rounded-2xl"></div>
+                                    <div className="space-y-2">
+                                        <div className="h-4 bg-slate-200 rounded"></div>
+                                        <div className="h-4 bg-slate-200 rounded"></div>
+                                        <div className="h-4 bg-slate-200 rounded"></div>
+                                    </div>
+                                </div>
+                            ) : airQuality && airQuality.list && airQuality.list[0] ? (
+                                <>
+                                    {(() => {
+                                        const aqi = airQuality.list[0].main.aqi;
+                                        const { level, color, bg } = getAQILevel(aqi);
+                                        return (
+                                            <>
+                                                <div className={`${bg} rounded-2xl p-6 mb-6 border-2 ${color} border-opacity-20`}>
+                                                    <div className="text-center">
+                                                        <div className={`text-6xl font-bold ${color} mb-2`}>{aqi}</div>
+                                                        <div className={`text-lg font-semibold ${color} uppercase tracking-wide`}>{level}</div>
+                                                        <div className="text-slate-600 text-sm mt-2">Air Quality Index</div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="space-y-3">
+                                                    <div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                                                        <span className="text-sm font-medium text-slate-600">PM2.5</span>
+                                                        <span className="font-bold text-slate-900">{airQuality.list[0].components.pm2_5?.toFixed(1)} µg/m³</span>
+                                                    </div>
+                                                    <div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                                                        <span className="text-sm font-medium text-slate-600">PM10</span>
+                                                        <span className="font-bold text-slate-900">{airQuality.list[0].components.pm10?.toFixed(1)} µg/m³</span>
+                                                    </div>
+                                                    <div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                                                        <span className="text-sm font-medium text-slate-600">NO₂</span>
+                                                        <span className="font-bold text-slate-900">{airQuality.list[0].components.no2?.toFixed(1)} µg/m³</span>
+                                                    </div>
+                                                    <div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                                                        <span className="text-sm font-medium text-slate-600">O₃</span>
+                                                        <span className="font-bold text-slate-900">{airQuality.list[0].components.o3?.toFixed(1)} µg/m³</span>
+                                                    </div>
+                                                    <div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                                                        <span className="text-sm font-medium text-slate-600">CO</span>
+                                                        <span className="font-bold text-slate-900">{airQuality.list[0].components.co?.toFixed(0)} µg/m³</span>
+                                                    </div>
+                                                </div>
+
+                                                <div className="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
+                                                    <div className="flex items-start gap-3">
+                                                        <Shield className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+                                                        <div className="text-xs text-blue-900">
+                                                            <p className="font-semibold mb-1">Health Advisory</p>
+                                                            <p className="text-blue-700">
+                                                                {aqi <= 2 ? 'Air quality is satisfactory. Ideal conditions for outdoor activities.' :
+                                                                 aqi === 3 ? 'Moderate air quality. Sensitive individuals should limit prolonged outdoor exertion.' :
+                                                                 'Poor air quality. Consider limiting outdoor activities.'}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </>
+                                        );
+                                    })()}
+                                </>
+                            ) : (
+                                <div className="text-center text-slate-500 py-12">
+                                    <Wind className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                                    <p>Unable to load air quality data</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
