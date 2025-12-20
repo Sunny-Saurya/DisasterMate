@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Twitter, Facebook, Instagram } from "lucide-react";
 import { Link } from "react-router-dom";
+import API_URL from "../config/api";
 
 export default function Contact() {
   const [location, setLocation] = useState({ lat: null, lon: null });
@@ -24,7 +25,7 @@ export default function Contact() {
     setStatus("");
 
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
+      const response = await fetch(`${API_URL}/api/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

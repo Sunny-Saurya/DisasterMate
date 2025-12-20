@@ -7,6 +7,7 @@ import {
 import Button from '../components/ui/Button';
 import Toast from '../components/ui/Toast';
 import { SAFETY_SESSIONS } from '../data/mockData';
+import API_URL from '../config/api';
 
 const SafetySessions = () => {
     const navigate = useNavigate();
@@ -63,7 +64,7 @@ const SafetySessions = () => {
             };
 
             // Send booking request to backend
-            const response = await fetch('http://localhost:5000/api/sessions/book', {
+            const response = await fetch(`${API_URL}/api/sessions/book`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
