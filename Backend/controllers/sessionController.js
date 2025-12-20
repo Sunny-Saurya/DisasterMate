@@ -5,7 +5,6 @@ export const bookSession = async (req, res) => {
     try {
         const { name, location, sessionType, preferredDate, sessionDetails } = req.body;
 
-        // Validate required fields
         if (!name || !location || !sessionType || !preferredDate) {
             return res.status(400).json({
                 success: false,
