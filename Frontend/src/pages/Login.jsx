@@ -4,6 +4,7 @@ import { Shield, Zap, ShieldCheck, Users, Activity } from 'lucide-react';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
 import { Spotlight } from '../components/ui/spotlight';
+import API_URL from '../config/api';
 
 const LoginPage = ({ onLogin }) => {
     const navigate = useNavigate();

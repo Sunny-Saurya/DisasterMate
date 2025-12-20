@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Shield, ArrowRight } from 'lucide-react';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
+import API_URL from '../config/api';
 
 const SignupPage = ({ onLogin }) => {
     const navigate = useNavigate();
