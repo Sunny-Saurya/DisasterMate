@@ -162,10 +162,14 @@ const Dashboard = ({ user }) => {
                                     </div>
                                 </div>
                             </div>
-                            <Button variant="danger" className="shadow-2xl shadow-red-500/30 h-12 px-6">
-                                <Zap className="w-5 h-5 mr-2" />
-                                Emergency SOS
-                            </Button>
+                           <Button
+                               variant="danger"
+                                className="shadow-2xl shadow-red-500/30 h-12 px-6"
+                                       onClick={() => navigate('/emergency')}>
+                          <Zap className="w-5 h-5 mr-2" />
+                          Emergency SOS
+                           </Button>
+
                         </div>
                     </div>
                 </div>
