@@ -1,13 +1,8 @@
 import nodemailer from 'nodemailer';
-
-// @desc    Send contact form email
-// @route   POST /api/contact
-// @access  Public
 export const sendContactEmail = async (req, res) => {
     try {
         const { name, email, message, emergencyType } = req.body;
 
-        // Validate required fields
         if (!name || !email || !message) {
             return res.status(400).json({
                 success: false,
@@ -15,7 +10,6 @@ export const sendContactEmail = async (req, res) => {
             });
         }
 
-        // Create a transporter inside the function
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             host: 'smtp.gmail.com',

@@ -16,6 +16,7 @@ import Emergency from './pages/Emergency';
 import Faq from './pages/Faq';
 import Resources from './pages/Resources';
 import Gallery from './pages/Gallery';
+import DisasterChatbot from './components/DisasterChatbot';
 
 
 const AppContent = () => {
@@ -82,6 +83,9 @@ const AppContent = () => {
 
                 </Routes>
             </main>
+
+            {/* AI Chatbot - Available on all pages */}
+            <DisasterChatbot />
         </div>
     );
 };
