@@ -1,29 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import jsPDF from "jspdf";
 import { useNavigate } from "react-router-dom";
-import {
-  Shield,
-  AlertTriangle,
-  Phone,
-  MapPin,
-  Battery,
-  Heart,
-  Clock,
-  Users,
-  Droplets,
-  Gauge,
-} from "lucide-react";
+import {Shield,AlertTriangle,Phone,MapPin,Battery,Heart,Clock,Users,Droplets,Gauge} from "lucide-react";
 import API_URL from "../config/api";
 
 export default function Emergency() {
   const navigate = useNavigate();
 
-  /* ================= BASIC STATES ================= */
   const [location, setLocation] = useState("Your Location");
   const [currentTime, setCurrentTime] = useState("");
   const [showSOSModal, setShowSOSModal] = useState(false);
 
-  /* ================= CONTACTS ================= */
   const [contacts, setContacts] = useState(() => {
     try {
       const raw = localStorage.getItem("dm_emergency_contacts");
@@ -36,8 +23,6 @@ export default function Emergency() {
 
   const [autoCall, setAutoCall] = useState(false);
   const [useSMSfallback, setUseSMSfallback] = useState(true);
-
-  /* ================= SOS STATES ================= */
   const [isSending, setIsSending] = useState(false);
   const [countdown, setCountdown] = useState(5);
   const [sosStatus, setSosStatus] = useState("");
@@ -45,8 +30,6 @@ export default function Emergency() {
   const [batteryLevel, setBatteryLevel] = useState(null);
 
   const countdownRef = useRef(null);
-
-  /* ================= TIME ================= */
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date().toLocaleTimeString());
@@ -54,12 +37,10 @@ export default function Emergency() {
     return () => clearInterval(timer);
   }, []);
 
-  /* ================= SAVE CONTACTS ================= */
   useEffect(() => {
     localStorage.setItem("dm_emergency_contacts", JSON.stringify(contacts));
   }, [contacts]);
 
-  /* ================= NETWORK STATUS ================= */
   useEffect(() => {
     const online = () => setIsOnline(true);
     const offline = () => setIsOnline(false);
@@ -71,7 +52,7 @@ export default function Emergency() {
     };
   }, []);
 
-  /* ================= BATTERY ================= */
+  
   useEffect(() => {
     if (navigator.getBattery) {
       navigator.getBattery().then((battery) => {
@@ -80,7 +61,7 @@ export default function Emergency() {
     }
   }, []);
 
-  /* ================= LOCATION ================= */
+ 
   const detectLocation = () => {
     if (!navigator.geolocation) {
       setLocation("Geolocation not supported");
@@ -94,14 +75,13 @@ export default function Emergency() {
 
   const normalizePhone = (p) => p.replace(/[^0-9]/g, "");
 
-  /* ================= START SOS ================= */
   const startSOS = () => {
     if (!isOnline)
-      alert("⚠️ You are offline. SMS / Call fallback will be used.");
+      alert(" You are offline. SMS / Call fallback will be used.");
     if (batteryLevel !== null && batteryLevel < 15)
-      alert("⚠️ Battery critically low.");
+      alert(" Battery critically low.");
 
-    if (!window.confirm("⚠️ Send SOS alert now?")) return;
+    if (!window.confirm(" Send SOS alert now?")) return;
 
     setIsSending(true);
     setCountdown(5);
@@ -125,7 +105,6 @@ export default function Emergency() {
     setSosStatus("");
   };
 
-  /* ================= ACTUAL SOS ALERT ================= */
   const sendSOSAlert = () => {
     if (!navigator.geolocation) {
       alert("Location service not supported.");
@@ -138,8 +117,7 @@ export default function Emergency() {
         const { latitude, longitude } = pos.coords;
         const locationLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
 
-        const message = `🚨 SOS ALERT 🚨
-I need immediate help!
+        const message = ` SOS ALERT I need immediate help!
 📍 Location: ${locationLink}
 🔋 Battery: ${batteryLevel ?? "Unknown"}%`;
 
@@ -201,7 +179,6 @@ I need immediate help!
   const handleRemoveContact = (idx) =>
     setContacts((prev) => prev.filter((_, i) => i !== idx));
 
-  /* ================= PDF ================= */
   const downloadPDF = () => {
     const doc = new jsPDF();
     doc.text("Emergency Kit Checklist", 20, 20);
@@ -213,7 +190,6 @@ I need immediate help!
     doc.save("Emergency_Kit.pdf");
   };
 
-  /* ================= FIND NEAREST HOSPITAL ================= */
   const findNearestHospital = () => {
     if (!navigator.geolocation) {
       alert("Geolocation not supported.");
@@ -230,12 +206,12 @@ I need immediate help!
     <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-50 pt-16 px-6">
       <div className="max-w-6xl mx-auto">
 
-        {/* HERO ALERT */}
+       {/* Alert */}
         <div className="bg-red-600 text-white text-center py-6 rounded-lg shadow-lg animate-pulse flex justify-center items-center gap-2 mt-6">
           <AlertTriangle size={22} /> LIVE ALERT: Stay cautious
         </div>
 
-        {/* STATUS CARDS */}
+        {/* STATUS */}
         <section className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-white rounded-xl shadow p-4 flex flex-col items-center">
             <Battery size={28} className="text-red-500"/>
@@ -254,7 +230,7 @@ I need immediate help!
           </div>
         </section>
 
-        {/* VIEW SAFETY TIPS BUTTON */}
+        {/*Safety tips button*/}
         <section className="mt-8 flex justify-center">
           <button
             onClick={() => navigate("/safetyTips")}
@@ -264,14 +240,14 @@ I need immediate help!
           </button>
         </section>
 
-        {/* HEADER */}
+        {/* header */}
         <header className="text-center mt-6">
           <h1 className="text-5xl font-extrabold text-red-700">
             Emergency Center
           </h1>
         </header>
 
-        {/* MAIN ACTIONS */}
+      {/* Immediate Actions */}
         <section className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
           <button
             onClick={() => setShowSOSModal(true)}
@@ -295,7 +271,7 @@ I need immediate help!
           </button>
         </section>
 
-        {/* FIND NEAREST HOSPITAL BUTTON */}
+        {/* Hospital map*/}
         <section className="mt-10 flex justify-center">
           <button
             onClick={findNearestHospital}
@@ -305,7 +281,7 @@ I need immediate help!
           </button>
         </section>
 
-        {/* EXTRA CONTENT: EMERGENCY TIPS */}
+        
         <section className="mt-12">
           <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">
             Emergency Tips
@@ -334,7 +310,6 @@ I need immediate help!
           </div>
         </section>
 
-        {/* EMERGENCY TOOLS */}
         <section className="mt-12">
           <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">
             Emergency Tools
@@ -349,7 +324,7 @@ I need immediate help!
           </ul>
         </section>
 
-        {/* CONTACT SUPPORT */}
+        {/* contact */}
         <section className="mt-12 text-center">
           <h2 className="text-3xl font-bold mb-4 text-gray-800">Contact Support</h2>
           <p className="text-gray-700 mb-2">National Helpline: 112</p>
@@ -358,7 +333,6 @@ I need immediate help!
           <p className="text-gray-700 mb-2">Disaster Management: 108</p>
         </section>
 
-        {/* DOWNLOAD PDF */}
         <div className="mt-12 text-center">
           <button
             onClick={downloadPDF}
@@ -368,7 +342,7 @@ I need immediate help!
           </button>
         </div>
 
-        {/* SOS MODAL */}
+        {/* SOS */}
         {showSOSModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white p-6 rounded-2xl w-full max-w-xl shadow-lg animate-fade-in">
@@ -437,17 +411,17 @@ I need immediate help!
           </div>
         )}
 
-        {/* COUNTDOWN */}
+        {/* CountDown */}
         {isSending && (
           <div className="fixed bottom-6 right-6 bg-red-600 text-white px-6 py-4 rounded-xl shadow-lg">
-            🚨 Sending SOS in {countdown}s
+               Sending SOS in {countdown}s
             <button onClick={cancelSOSAlert} className="block underline mt-2">
               Cancel
             </button>
           </div>
         )}
 
-        {/* STATUS TOASTS */}
+       
         {sosStatus === "success" && (
           <div className="fixed bottom-6 left-6 bg-green-600 text-white px-6 py-4 rounded-xl shadow-lg">
             ✅ SOS Sent Successfully
@@ -456,7 +430,7 @@ I need immediate help!
 
         {sosStatus === "error" && (
           <div className="fixed bottom-6 left-6 bg-red-700 text-white px-6 py-4 rounded-xl shadow-lg">
-            ❌ SOS Failed
+             SOS Failed
           </div>
         )}
       </div>
@@ -464,7 +438,6 @@ I need immediate help!
   );
 }
 
-/* ================= SMALL TIP COMPONENT ================= */
 function Tip({ icon, title, description }) {
   return (
     <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition text-center">

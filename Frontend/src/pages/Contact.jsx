@@ -177,7 +177,7 @@ export default function Contact() {
             </div>
 
 
-{/* button to move to Faq page */}
+
             <div className="mt-8 flex flex-col sm:flex-row gap-4">
               <Link
                 to="/faq"

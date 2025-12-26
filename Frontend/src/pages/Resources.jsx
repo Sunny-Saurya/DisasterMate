@@ -1,19 +1,6 @@
 import React, { useState } from "react";
 import jsPDF from "jspdf";
-import {
-  FileText,
-  Video,
-  LinkIcon,
-  ClipboardList,
-  Heart,
-  Share2,
-  CheckCircle2,
-  BookOpen,
-  Lightbulb,
-  Wand2,
-  Download,
-  ExternalLink,
-} from "lucide-react";
+import {FileText,Video,LinkIcon, ClipboardList,Heart,CheckCircle2,BookOpen,Lightbulb,Wand2,Download,ExternalLink,} from "lucide-react";
 
 export default function Resources() {
   const [activeTab, setActiveTab] = useState("guides");
@@ -25,7 +12,7 @@ export default function Resources() {
     );
   };
 
-  /* ------------------------- PDF GENERATOR ------------------------- */
+ 
   const downloadPDF = (title, content) => {
     const pdf = new jsPDF();
     pdf.setFont("Times", "normal");
@@ -42,7 +29,7 @@ export default function Resources() {
     pdf.save(`${title}.pdf`);
   };
 
-  /* ----------------------------- DATA ----------------------------- */
+  
   const guides = [
     {
       title: "Flood Safety Guide",
@@ -232,7 +219,7 @@ export default function Resources() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex font-serif mt-20 pt-6">
-      {/* Sidebar */}
+      
       <aside className="w-64 bg-white border-r shadow-md p-6 hidden md:block">
         <h2 className="text-2xl font-bold mb-8">Resources</h2>
         <nav className="space-y-4">
@@ -257,17 +244,17 @@ export default function Resources() {
         </nav>
       </aside>
 
-      {/* Main Content */}
+      
       <main className="flex-1 p-6 md:p-10">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-bold">
             {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
           </h1>
-          <Share2 className="cursor-pointer hover:text-blue-500" size={26} />
+         
         </div>
 
         <div>
-          {/* Guides */}
+         
           {activeTab === "guides" && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {guides.map((guide) => (
@@ -299,7 +286,7 @@ export default function Resources() {
             </div>
           )}
 
-          {/* Videos */}
+          {/* Video references */}
           {activeTab === "videos" && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {videos.map((video) => (
@@ -367,7 +354,7 @@ export default function Resources() {
             </div>
           )}
 
-          {/* Links */}
+          {/* govt Links */}
           {activeTab === "links" && (
             <div className="space-y-6">
               {links.map((link) => (
