@@ -50,10 +50,9 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
                     <div className="hidden md:flex items-center space-x-8">
                         {!isLoggedIn ? (
                             <>
-                                {/* <button onClick={() => navigate('/')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Features</button> */}
+                                <button onClick={() => navigate('/')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Home</button>
                                 <button onClick={() => navigate('/about')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>About</button>
                                 <button onClick={() => navigate('/modules')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Modules</button>
-                                {/* <button onClick={() => navigate('/modules')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Modules</button>                                 */}
                                 <button onClick={() => navigate('/emergency')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Emergency</button>
                                 <button onClick={() => navigate('/gallery')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Gallery</button>
                                 <button onClick={() => navigate('/resources')} className={`font-medium hover:text-blue-600 transition-colors ${textClass}`}>Resources</button>
@@ -62,6 +61,7 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
                             </>
                         ) : (
                             <>
+                                <button onClick={() => navigate('/')} className="font-medium text-slate-600 hover:text-blue-600">Home</button>
                                 <button onClick={() => navigate('/dashboard')} className="font-medium text-slate-600 hover:text-blue-600">Dashboard</button>
                                 <button onClick={() => navigate('/safetysessions')} className="font-medium text-slate-600 hover:text-blue-600">Safety Sessions</button>
                                 
