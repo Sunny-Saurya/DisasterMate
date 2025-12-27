@@ -3,7 +3,7 @@
 ## ✅ Successfully Implemented!
 
 Your DisasterMate application now has a **Gemini AI-powered disaster assistance chatbot** that helps users during emergencies!
-
+    
 ---
 
 ## 🚀 Features
