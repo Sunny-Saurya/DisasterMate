@@ -162,10 +162,14 @@ const Dashboard = ({ user }) => {
                                     </div>
                                 </div>
                             </div>
-                            <Button variant="danger" className="shadow-2xl shadow-red-500/30 h-12 px-6">
-                                <Zap className="w-5 h-5 mr-2" />
-                                Emergency SOS
-                            </Button>
+                           <Button
+                               variant="danger"
+                                className="shadow-2xl shadow-red-500/30 h-12 px-6"
+                                       onClick={() => navigate('/emergency')}>
+                          <Zap className="w-5 h-5 mr-2" />
+                          Emergency SOS
+                           </Button>
+
                         </div>
                     </div>
                 </div>
@@ -448,11 +452,11 @@ const Dashboard = ({ user }) => {
                                             </div>
                                         </div>
                                         <div className="flex gap-3">
-                                            <button className="flex items-center gap-2 text-sm font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl transition-all hover:shadow-md">
+                                            <button onClick={() => navigate("/contact")} className="flex items-center gap-2 text-sm font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl transition-all hover:shadow-md">
                                                 <MapPin className="w-4 h-4" />
                                                 View Map
                                             </button>
-                                            <button className="flex items-center gap-2 text-sm font-semibold bg-gradient-to-r from-red-500 to-orange-600 hover:from-red-600 hover:to-orange-700 text-white px-4 py-2.5 rounded-xl transition-all shadow-lg hover:shadow-xl">
+                                            <button onClick={() => navigate("/emergency")}className="flex items-center gap-2 text-sm font-semibold bg-gradient-to-r from-red-500 to-orange-600 hover:from-red-600 hover:to-orange-700 text-white px-4 py-2.5 rounded-xl transition-all shadow-lg hover:shadow-xl">
                                                 <Shield className="w-4 h-4" />
                                                 Emergency Protocols
                                             </button>
@@ -525,7 +529,7 @@ const Dashboard = ({ user }) => {
                                     ))}
                                 </div>
                                 <div className="p-5 bg-gradient-to-r from-slate-50 to-blue-50 text-center border-t border-slate-100">
-                                    <button className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors flex items-center gap-2 mx-auto">
+                                    <button  onClick={() => navigate("/resources")} className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors flex items-center gap-2 mx-auto">
                                         <Award className="w-4 h-4" />
                                         + Start New Certification
                                     </button>
@@ -622,7 +626,7 @@ const Dashboard = ({ user }) => {
                                 </div>
                                 <h3 className="font-bold text-xl mb-2">Invite Your Team</h3>
                                 <p className="text-indigo-100 text-sm mb-5">Ensure your entire household is prepared together.</p>
-                                <button className="bg-white hover:bg-indigo-50 text-indigo-600 text-sm font-bold px-6 py-3 rounded-xl transition-all shadow-lg hover:shadow-xl w-full flex items-center justify-center gap-2">
+                                <button  onClick={() => navigate("/contact")} className="bg-white hover:bg-indigo-50 text-indigo-600 text-sm font-bold px-6 py-3 rounded-xl transition-all shadow-lg hover:shadow-xl w-full flex items-center justify-center gap-2">
                                     <Users className="w-4 h-4" />
                                     Send Invite Link
                                 </button>
@@ -668,7 +672,7 @@ const Dashboard = ({ user }) => {
                         <Button 
                             variant="outline" 
                             className="bg-white text-indigo-600 hover:bg-indigo-50 border-0 h-14 px-8 text-lg font-semibold shadow-2xl shrink-0"
-                            onClick={() => navigate('safetysessions')}
+                            onClick={() => navigate('/safetysessions')}
                         >
                             <Calendar className="w-5 h-5 mr-2" />
                             Browse Sessions

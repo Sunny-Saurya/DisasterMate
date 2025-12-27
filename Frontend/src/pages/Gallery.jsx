@@ -488,7 +488,7 @@ const Gallery = () => {
                 
                 <div className="text-center mb-12">
                     <h1 className="text-5xl md:text-6xl font-extrabold text-blue-700 drop-shadow-md bg-gradient-to-r from-blue-700 to-blue-500 bg-clip-text text-transparent transition duration-500 hover:text-blue-900">
-                        🚨  DisasterMate's Gallery
+                          DisasterMate's Gallery
                     </h1>
                     <p className="mt-4 text-gray-600 text-lg md:text-xl transition duration-500 hover:text-blue-800">
                         Explore real moments of preparedness, rescue operations, and community safety.

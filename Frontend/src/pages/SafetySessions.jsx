@@ -4,6 +4,7 @@ import {
     GraduationCap, Calendar, Clock, MapPin, UserCheck, X, Shield,
     ArrowLeft, CheckCircle, Users, Award, BookOpen, Sparkles, Trash2
 } from 'lucide-react';
+
 import Button from '../components/ui/Button';
 import Toast from '../components/ui/Toast';
 import { SAFETY_SESSIONS } from '../data/mockData';

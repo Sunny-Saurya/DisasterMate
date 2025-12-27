@@ -28,6 +28,7 @@
     "lucide-react": "^0.555.0",
     "motion": "^12.23.25",
     "react": "^19.2.1",
+    "react-calendar": "^6.0.0",
     "react-dom": "^19.2.1",
     "react-leaflet": "^5.0.0",
     "react-leaflet-cluster": "^4.0.0",
