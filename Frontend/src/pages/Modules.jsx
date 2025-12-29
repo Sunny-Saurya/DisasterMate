@@ -231,28 +231,7 @@ const handleInput = (e) => {
       </section>
 
  
-      <section className="max-w-6xl mx-auto mb-20">
-        <h2 className="text-2xl font-bold text-slate-900 mb-6">Upcoming Drills</h2>
-        <div className="grid md:grid-cols-2 gap-8">
-          {[
-            { title: "Mock Fire Drill", date: "12 Jan 2025", time: "10:00 AM", location: "Block A – Main Ground" },
-            { title: "Earthquake Safety Demo", date: "22 Jan 2025", time: "2:00 PM", location: "Auditorium Hall" },
-          ].map((drill, index) => (
-            <div key={index} className="p-6 border border-slate-200 rounded-2xl shadow hover:shadow-lg bg-white transition">
-              <h3 className="text-xl font-semibold mb-2">{drill.title}</h3>
-              <div className="flex items-center text-slate-600 gap-2 mb-1"><Calendar className="w-5 h-5" /> {drill.date}</div>
-              <div className="flex items-center text-slate-600 gap-2 mb-1"><Clock className="w-5 h-5" /> {drill.time}</div>
-              <div className="flex items-center text-slate-600 gap-2"><MapPin className="w-5 h-5" /> {drill.location}</div>
-              <button 
-                className="mt-4 w-full bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition"
-                onClick={() => setShowRegisterForm(true)}>
-                Register
-              </button>
-
-            </div>
-          ))}
-        </div>
-      </section>
+     
 
      
 {openModule && (
