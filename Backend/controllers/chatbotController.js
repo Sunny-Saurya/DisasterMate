@@ -3,10 +3,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Initialize Gemini AI
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// System prompt for disaster assistance
 const SYSTEM_PROMPT = `You are DisasterMate AI, an expert emergency disaster assistance chatbot. Your role is to:
 
 1. Provide immediate, life-saving guidance during emergencies (earthquakes, floods, fires, hurricanes, etc.)
@@ -32,7 +30,6 @@ RESPONSE FORMAT:
 
 If asked about non-emergency topics, politely redirect to disaster preparedness or safety.`;
 
-// Chat history storage (in production, use Redis or database)
 const chatSessions = new Map();
 
 export const sendMessage = async (req, res) => {
@@ -46,15 +43,12 @@ export const sendMessage = async (req, res) => {
             });
         }
 
-        // Generate session ID if not provided
         const chatSessionId = sessionId || `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
-        // Get or create chat session
         let chatHistory = chatSessions.get(chatSessionId) || [];
 
         let responseText = '';
 
-        // Try Gemini API first
         try {
             const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
             
@@ -74,7 +68,6 @@ export const sendMessage = async (req, res) => {
         } catch (apiError) {
             console.log('Gemini API failed, using fallback responses:', apiError.message);
             
-            // Fallback intelligent responses based on keywords
             const lowerMessage = message.toLowerCase();
             
             if (lowerMessage.includes('earthquake')) {
@@ -219,7 +212,6 @@ Please ask me about any specific emergency situation or safety concern!
             }
         }
 
-        // Update chat history
         chatHistory.push(
             {
                 role: 'user',
@@ -231,7 +223,6 @@ Please ask me about any specific emergency situation or safety concern!
             }
         );
 
-        // Store chat history (limit to last 20 messages)
         if (chatHistory.length > 20) {
             chatHistory = chatHistory.slice(-20);
         }
@@ -313,7 +304,6 @@ export const getSuggestedQuestions = async (req, res) => {
     }
 };
 
-// Cleanup function to remove old sessions
 function cleanupOldSessions() {
     const ONE_HOUR = 60 * 60 * 1000;
     const now = Date.now();
